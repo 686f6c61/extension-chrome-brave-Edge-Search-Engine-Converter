@@ -51,11 +51,20 @@ function loadConfig() {
 
 // Actualizar URLs que dependen de dominios configurables
 function updateDynamicUrls() {
+  console.log('Actualizando URLs dinámicas con configuración:', config);
+  
+  // Asegurarse de que todas las URLs base estén correctamente inicializadas
+  // URLs estáticas que nunca deben ser null
+  searchEngines.googleButton.url = 'https://www.google.com/search?q=';
+  searchEngines.duckduckgoButton.url = 'https://duckduckgo.com/?q=';
+  searchEngines.bingButton.url = 'https://www.bing.com/search?q=';
+  searchEngines.openaiButton.url = 'https://chat.openai.com/chat?q=';
+  
   // Asegurarse de que los dominios tengan un formato válido
   const amazonDomain = config.amazonDomain ? config.amazonDomain.trim() : 'es';
   const youtubeDomain = config.youtubeDomain ? config.youtubeDomain.trim() : 'com';
   
-  // Formatear correctamente las URLs
+  // Formatear correctamente las URLs dinámicas
   searchEngines.amazonButton.url = `https://www.amazon.${amazonDomain}/s?k=`;
   
   // Para YouTube, el dominio debe incluir el punto
@@ -65,6 +74,17 @@ function updateDynamicUrls() {
     searchEngines.youtubeButton.url = `https://www.youtube.com/${youtubeDomain === 'com' ? '' : youtubeDomain + '/'}`;
     searchEngines.youtubeButton.url += 'results?search_query=';
   }
+  
+  // Verificar que todas las URLs estén correctamente inicializadas
+  for (const [id, engine] of Object.entries(searchEngines)) {
+    if (!engine.url) {
+      console.error(`URL no inicializada para el motor ${id}. Usando URL por defecto.`);
+      // Establecer una URL por defecto para evitar errores
+      engine.url = 'https://www.google.com/search?q=';
+    }
+  }
+  
+  console.log('URLs actualizadas:', searchEngines);
 }
 
 // Importar el módulo de captura de pantalla
@@ -211,14 +231,18 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
 
 // Inicializar extensión
 chrome.runtime.onInstalled.addListener(function() {
-  // Cargar configuración
-  loadConfig();
-  
-  // Actualizar URLs dinámicas
-  updateDynamicUrls();
-  
-  // Configurar menús contextuales
-  setupContextMenus();
+  // Cargar configuración y esperar a que se complete
+  chrome.storage.local.get('braveSearchConverterConfig', function(data) {
+    if (data.braveSearchConverterConfig) {
+      config = JSON.parse(data.braveSearchConverterConfig);
+    }
+    
+    // Actualizar URLs dinámicas
+    updateDynamicUrls();
+    
+    // Configurar menús contextuales
+    setupContextMenus();
+  });
 });
 
 // Escuchar cambios en la configuración
