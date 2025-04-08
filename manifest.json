@@ -12,15 +12,15 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "128": "icon128.png",
-      "256": "icon256.png"
+      "128": "images/icon128.png",
+      "256": "images/icon256.png"
     }
   },
   "background": {
     "service_worker": "background.js"
   },
   "icons": {
-    "128": "icon128.png",
-    "256": "icon256.png"
+    "128": "images/icon128.png",
+    "256": "images/icon256.png"
   }
 }
