@@ -80,6 +80,7 @@ _Convierte tus búsquedas de Brave a Google, DuckDuckGo, Bing, OpenAI, Amazon y 
   - GPT-4o-mini (recomendado): Equilibrio entre rendimiento y velocidad
   - GPT-4o: Mayor capacidad de análisis y detalle
   - GPT-3.5 Turbo: Opción más rápida y económica
+- Posibilidad de añadir prompts personalizados para dirigir el análisis de la imagen
 
 ## 🚀 Instalación
 
@@ -145,11 +146,13 @@ _La extensión estará disponible en Chrome Web Store._
 
 4. En la nueva pestaña, haz clic y arrastra para seleccionar el área específica que deseas analizar
 
-5. Haz clic en el botón "Analizar con OpenAI" para procesar la imagen seleccionada
+5. Opcionalmente, escribe un prompt personalizado en el campo de texto para dirigir el análisis (por ejemplo, "Identifica los productos que aparecen en esta imagen")
 
-6. Espera unos segundos mientras se procesa la imagen y se muestra el resultado del análisis
+6. Haz clic en el botón "Analizar con OpenAI" para procesar la imagen seleccionada
 
-7. Puedes cerrar la ventana de resultados o la pestaña completa cuando hayas terminado
+7. Espera unos segundos mientras se procesa la imagen y se muestra el resultado del análisis
+
+8. Puedes cerrar la ventana de resultados o la pestaña completa cuando hayas terminado
 
 ### Personalización
 

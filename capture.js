@@ -108,6 +108,9 @@ document.addEventListener('DOMContentLoaded', function() {
   analyzeButton.addEventListener('click', async function() {
     if (!selectionRect) return;
     
+    // Obtener el prompt personalizado
+    const customPrompt = document.getElementById('custom-prompt').value.trim();
+    
     try {
       // Mostrar pantalla de carga
       resultContainer.style.display = 'flex';
@@ -152,8 +155,8 @@ document.addEventListener('DOMContentLoaded', function() {
         throw new Error('No se ha configurado una clave API de OpenAI. Por favor, configúrala en el panel de configuración.');
       }
       
-      // Enviar a OpenAI
-      const response = await sendToOpenAI(imageData, config);
+      // Enviar a OpenAI con el prompt personalizado
+      const response = await sendToOpenAI(imageData, config, customPrompt);
       
       // Mostrar resultado
       loading.style.display = 'none';
@@ -176,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // Función para enviar imagen a OpenAI
-  async function sendToOpenAI(imageData, config) {
+  async function sendToOpenAI(imageData, config, customPrompt = '') {
     // Eliminar el prefijo de los datos de la imagen
     const base64Image = imageData.replace(/^data:image\/\w+;base64,/, '');
     
@@ -209,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
             content: [
               {
                 type: 'text',
-                text: 'Analiza esta imagen y describe detalladamente lo que ves. Sé específico y conciso.'
+                text: customPrompt || 'Analiza esta imagen y describe detalladamente lo que ves. Sé específico y conciso.'
               },
               {
                 type: 'image_url',
