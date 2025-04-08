@@ -54,7 +54,7 @@ _Convierte tus búsquedas de Brave a Google, DuckDuckGo, Bing, OpenAI, Amazon y 
 
 ### Captura y análisis con OpenAI
 
-![Captura de pantalla de análisis con OpenAI](images/openai.png)
+![Captura de pantalla de análisis con OpenAI](images/OpenAI.png)
 
 #### Popup de la extensión:
 - Panel principal con el título "Brave Search Converter"
