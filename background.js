@@ -21,7 +21,7 @@ const searchEngines = {
     name: 'Bing'
   },
   'openaiButton': {
-    url: 'https://chat.openai.com/?q=',
+    url: 'https://chat.openai.com/chat?q=',
     name: 'OpenAI'
   },
   'amazonButton': {
@@ -151,7 +151,16 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
   } else if (info.menuItemId === 'quickSearch') {
     // Búsqueda rápida con motor predeterminado
     const engine = searchEngines[config.defaultSearchEngine];
+    
+    // Verificar que la URL del motor de búsqueda sea válida
+    if (!engine.url) {
+      console.error(`URL no válida para el motor de búsqueda predeterminado: ${config.defaultSearchEngine}`);
+      return;
+    }
+    
+    // Construir y abrir la URL de búsqueda
     const searchUrl = engine.url + encodeURIComponent(info.selectionText);
+    console.log(`Abriendo URL de búsqueda rápida: ${searchUrl}`);
     chrome.tabs.create({ url: searchUrl });
   } else if (info.menuItemId === 'captureScreenshot') {
     // Enfoque directo para la captura de pantalla
@@ -186,7 +195,16 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
   } else if (searchEngines[info.menuItemId]) {
     // Búsqueda con motor específico
     const engine = searchEngines[info.menuItemId];
+    
+    // Verificar que la URL del motor de búsqueda sea válida
+    if (!engine.url) {
+      console.error(`URL no válida para el motor de búsqueda: ${info.menuItemId}`);
+      return;
+    }
+    
+    // Construir y abrir la URL de búsqueda
     const searchUrl = engine.url + encodeURIComponent(info.selectionText);
+    console.log(`Abriendo URL de búsqueda: ${searchUrl}`);
     chrome.tabs.create({ url: searchUrl });
   }
 });
