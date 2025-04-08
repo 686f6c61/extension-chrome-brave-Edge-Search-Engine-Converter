@@ -1,11 +1,13 @@
 {
   "manifest_version": 3,
   "name": "Brave Search Converter",
-  "version": "0.4",
-  "description": "Convierte búsquedas de Brave a Google, DuckDuckGo, Bing y OpenAI",
+  "version": "0.8",
+  "description": "Convierte búsquedas de Brave a Google, DuckDuckGo, Bing, OpenAI, Amazon y YouTube",
   "author": "https://github.com/686f6c61",
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "contextMenus",
+    "storage"
   ],
   "action": {
     "default_popup": "popup.html",
@@ -13,6 +15,9 @@
       "128": "icon128.png",
       "256": "icon256.png"
     }
+  },
+  "background": {
+    "service_worker": "background.js"
   },
   "icons": {
     "128": "icon128.png",

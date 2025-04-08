@@ -34,34 +34,46 @@ function updateStatus(message, type = 'info') {
 let config = {
   amazonDomain: 'es',
   youtubeDomain: 'com',
-  buttonOrder: ['googleButton', 'duckduckgoButton', 'bingButton', 'openaiButton', 'amazonButton', 'youtubeButton']
+  buttonOrder: ['googleButton', 'duckduckgoButton', 'bingButton', 'openaiButton', 'amazonButton', 'youtubeButton'],
+  defaultSearchEngine: 'googleButton' // Motor de búsqueda predeterminado para el menú contextual
 };
 
 // Cargar configuración guardada si existe
 function loadConfig() {
-  const savedConfig = localStorage.getItem('braveSearchConverterConfig');
-  if (savedConfig) {
-    config = JSON.parse(savedConfig);
-    
-    // Actualizar los selectores en la interfaz
-    const amazonDomainSelect = document.getElementById('amazonDomain');
-    if (amazonDomainSelect) {
-      amazonDomainSelect.value = config.amazonDomain;
+  chrome.storage.local.get('braveSearchConverterConfig', function(data) {
+    if (data.braveSearchConverterConfig) {
+      config = JSON.parse(data.braveSearchConverterConfig);
+      
+      // Actualizar los selectores en la interfaz
+      const amazonDomainSelect = document.getElementById('amazonDomain');
+      if (amazonDomainSelect) {
+        amazonDomainSelect.value = config.amazonDomain;
+      }
+      
+      const youtubeDomainSelect = document.getElementById('youtubeDomain');
+      if (youtubeDomainSelect) {
+        youtubeDomainSelect.value = config.youtubeDomain;
+      }
+      
+      const defaultSearchEngineSelect = document.getElementById('defaultSearchEngine');
+      if (defaultSearchEngineSelect && config.defaultSearchEngine) {
+        defaultSearchEngineSelect.value = config.defaultSearchEngine;
+      }
+      
+      // Si no existe la configuración de orden de botones, inicializarla
+      if (!config.buttonOrder) {
+        config.buttonOrder = ['googleButton', 'duckduckgoButton', 'bingButton', 'openaiButton', 'amazonButton', 'youtubeButton'];
+      }
+      
+      // Si no existe la configuración de motor predeterminado, inicializarla
+      if (!config.defaultSearchEngine) {
+        config.defaultSearchEngine = 'googleButton';
+      }
+      
+      // Aplicar el orden de botones guardado
+      applyButtonOrder();
     }
-    
-    const youtubeDomainSelect = document.getElementById('youtubeDomain');
-    if (youtubeDomainSelect) {
-      youtubeDomainSelect.value = config.youtubeDomain;
-    }
-    
-    // Si no existe la configuración de orden de botones, inicializarla
-    if (!config.buttonOrder) {
-      config.buttonOrder = ['googleButton', 'duckduckgoButton', 'bingButton', 'openaiButton', 'amazonButton', 'youtubeButton'];
-    }
-    
-    // Aplicar el orden de botones guardado
-    applyButtonOrder();
-  }
+  });
 }
 
 // Aplicar el orden de los botones en la interfaz
@@ -107,10 +119,12 @@ function saveConfig() {
   // Obtener valores de los selectores
   const amazonDomainSelect = document.getElementById('amazonDomain');
   const youtubeDomainSelect = document.getElementById('youtubeDomain');
+  const defaultSearchEngineSelect = document.getElementById('defaultSearchEngine');
   
-  if (amazonDomainSelect && youtubeDomainSelect) {
+  if (amazonDomainSelect && youtubeDomainSelect && defaultSearchEngineSelect) {
     config.amazonDomain = amazonDomainSelect.value;
     config.youtubeDomain = youtubeDomainSelect.value;
+    config.defaultSearchEngine = defaultSearchEngineSelect.value;
     
     // Obtener el orden actual de los botones desde la lista de configuración
     const buttonOrderList = document.getElementById('buttonOrderList');
@@ -122,17 +136,19 @@ function saveConfig() {
       config.buttonOrder = newOrder;
     }
     
-    // Guardar en localStorage
-    localStorage.setItem('braveSearchConverterConfig', JSON.stringify(config));
-    
-    // Aplicar el nuevo orden de botones
-    applyButtonOrder();
-    
-    // Mostrar mensaje de éxito
-    updateStatus('Configuración guardada correctamente', 'success');
-    
-    // Cerrar panel de configuración
-    toggleConfigPanel(false);
+    // Guardar en chrome.storage.local
+    chrome.storage.local.set({
+      'braveSearchConverterConfig': JSON.stringify(config)
+    }, function() {
+      // Aplicar el nuevo orden de botones
+      applyButtonOrder();
+      
+      // Mostrar mensaje de éxito
+      updateStatus('Configuración guardada correctamente', 'success');
+      
+      // Cerrar panel de configuración
+      toggleConfigPanel(false);
+    });
   }
 }
 

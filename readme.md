@@ -2,7 +2,7 @@
 
 # Brave Search Converter
 
-<img src="icon256.png" alt="Brave Search Converter Logo" width="128px" height="128px">
+<img src="images/icon256.png" alt="Brave Search Converter Logo" width="128px" height="128px">
 
 ### Motores de búsqueda soportados:
 
@@ -13,9 +13,9 @@
 [<img src="https://www.amazon.es/favicon.ico" width="32" alt="Amazon">](https://www.amazon.es) &nbsp;&nbsp;
 [<img src="https://www.youtube.com/favicon.ico" width="32" alt="YouTube">](https://www.youtube.com)
 
-_Convierte tus búsquedas de Brave a Google, DuckDuckGo, Bing, OpenAI, Amazon y YouTube con un solo clic_
+_Convierte tus búsquedas de Brave a Google, DuckDuckGo, Bing, OpenAI, Amazon y YouTube con un solo clic o desde el menú contextual_
 
-[![Versión](https://img.shields.io/badge/versi%C3%B3n-0.7-blue)](https://github.com/686f6c61/extension-chrome-brave-to-google-search)
+[![Versión](https://img.shields.io/badge/versi%C3%B3n-0.8-blue)](https://github.com/686f6c61/extension-chrome-brave-to-google-search)
 [![Chrome](https://img.shields.io/badge/Chrome-compatible-brightgreen)](https://github.com/686f6c61/extension-chrome-brave-to-google-search)
 [![Brave](https://img.shields.io/badge/Brave-compatible-brightgreen)](https://github.com/686f6c61/extension-chrome-brave-to-google-search)
 
@@ -37,16 +37,31 @@ _Convierte tus búsquedas de Brave a Google, DuckDuckGo, Bing, OpenAI, Amazon y 
 - ⚙️ Panel de configuración personalizable para dominios regionales
 - 💻 Posibilidad de cambiar el orden de los botones mediante arrastrar y soltar
 - 💾 Guarda tus preferencias automáticamente entre sesiones
+- 💬 Menú contextual para buscar texto seleccionado en cualquier página web
+- 🔐 Búsqueda rápida con motor predeterminado configurable
 
 ## 🖼️ Capturas de pantalla
 
-![Captura de pantalla de la extensión](imagen.png)
+### Popup de la extensión
 
+![Captura de pantalla de la extensión](images/imagen.png)
+
+### Menú contextual
+
+![Captura de pantalla del menú contextual](images/texto.png)
+
+#### Popup de la extensión:
 - Panel principal con el título "Brave Search Converter"
 - Indicador de estado que muestra si estás en una página de Brave Search
 - Botones para convertir la búsqueda a Google, DuckDuckGo, Bing, OpenAI, Amazon y YouTube
 - Panel de configuración para personalizar dominios regionales y orden de botones
 - Información de versión y enlace al repositorio
+
+#### Menú contextual:
+- Opción de búsqueda rápida con el motor predeterminado
+- Submenú para buscar en cualquiera de los motores disponibles
+- Posibilidad de establecer el motor de búsqueda predeterminado
+- Funciona en cualquier página web con texto seleccionado
 
 ## 🚀 Instalación
 
@@ -71,6 +86,8 @@ _La extensión estará disponible en Chrome Web Store._
 
 ## 🔧 Uso
 
+### Desde el popup de la extensión
+
 1. Navega a una página de resultados de búsqueda de Brave (URL que comience con `https://search.brave.com/search?`)
 
 2. Haz clic en el icono de la extensión en la barra de herramientas
@@ -87,11 +104,29 @@ _La extensión estará disponible en Chrome Web Store._
 
 5. La página se actualizará automáticamente con los resultados equivalentes en el motor seleccionado
 
-6. Para personalizar la extensión:
-   - Haz clic en el botón "Configuración"
-   - Selecciona los dominios regionales para Amazon y YouTube
-   - Arrastra y suelta los botones para cambiar su orden
-   - Haz clic en "Guardar" para aplicar los cambios
+### Desde el menú contextual (botón derecho)
+
+1. Selecciona cualquier texto en cualquier página web
+
+2. Haz clic derecho sobre el texto seleccionado
+
+3. En el menú contextual, encontrarás las siguientes opciones:
+   - "Búsqueda rápida en [Motor predeterminado]": Busca directamente con tu motor preferido
+   - "Buscar '[texto seleccionado]' en...": Submenu con todos los motores disponibles
+   - "Establecer motor predeterminado": Para cambiar el motor de búsqueda rápida
+
+4. Al seleccionar cualquier opción, se abrirá una nueva pestaña con los resultados de la búsqueda
+
+### Personalización
+
+1. Haz clic en el botón "Configuración" en el popup de la extensión
+
+2. Puedes configurar:
+   - Dominios regionales para Amazon y YouTube
+   - Motor de búsqueda predeterminado para el menú contextual
+   - Orden de los botones mediante arrastrar y soltar
+
+3. Haz clic en "Guardar" para aplicar los cambios
 
 ## ⚠️ Limitaciones
 
