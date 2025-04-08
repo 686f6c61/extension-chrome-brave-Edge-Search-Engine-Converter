@@ -51,8 +51,20 @@ function loadConfig() {
 
 // Actualizar URLs que dependen de dominios configurables
 function updateDynamicUrls() {
-  searchEngines.amazonButton.url = `https://www.amazon.${config.amazonDomain}/s?k=`;
-  searchEngines.youtubeButton.url = `https://www.youtube.${config.youtubeDomain}/results?search_query=`;
+  // Asegurarse de que los dominios tengan un formato válido
+  const amazonDomain = config.amazonDomain ? config.amazonDomain.trim() : 'es';
+  const youtubeDomain = config.youtubeDomain ? config.youtubeDomain.trim() : 'com';
+  
+  // Formatear correctamente las URLs
+  searchEngines.amazonButton.url = `https://www.amazon.${amazonDomain}/s?k=`;
+  
+  // Para YouTube, el dominio debe incluir el punto
+  if (youtubeDomain.startsWith('.')) {
+    searchEngines.youtubeButton.url = `https://www.youtube${youtubeDomain}/results?search_query=`;
+  } else {
+    searchEngines.youtubeButton.url = `https://www.youtube.com/${youtubeDomain === 'com' ? '' : youtubeDomain + '/'}`;
+    searchEngines.youtubeButton.url += 'results?search_query=';
+  }
 }
 
 // Importar el módulo de captura de pantalla
