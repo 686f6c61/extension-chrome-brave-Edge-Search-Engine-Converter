@@ -35,12 +35,17 @@ let config = {
   amazonDomain: 'es',
   youtubeDomain: 'com',
   buttonOrder: ['googleButton', 'duckduckgoButton', 'bingButton', 'openaiButton', 'amazonButton', 'youtubeButton'],
-  defaultSearchEngine: 'googleButton' // Motor de búsqueda predeterminado para el menú contextual
+  defaultSearchEngine: 'googleButton', // Motor de búsqueda predeterminado para el menú contextual
+  openAIApiKey: '', // Clave API de OpenAI
+  openAIModel: 'gpt-4o-mini', // Modelo de OpenAI predeterminado
+  openAIMaxTokens: 1000 // Límite de tokens para la respuesta
 };
 
 // Cargar configuración guardada si existe
 function loadConfig() {
-  chrome.storage.local.get('braveSearchConverterConfig', function(data) {
+  // Verificar si chrome.storage está disponible
+  if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+    chrome.storage.local.get('braveSearchConverterConfig', function(data) {
     if (data.braveSearchConverterConfig) {
       config = JSON.parse(data.braveSearchConverterConfig);
       
@@ -60,6 +65,22 @@ function loadConfig() {
         defaultSearchEngineSelect.value = config.defaultSearchEngine;
       }
       
+      // Cargar configuración de OpenAI
+      const openAIApiKeyInput = document.getElementById('openAIApiKey');
+      if (openAIApiKeyInput && config.openAIApiKey) {
+        openAIApiKeyInput.value = config.openAIApiKey;
+      }
+      
+      const openAIModelSelect = document.getElementById('openAIModel');
+      if (openAIModelSelect && config.openAIModel) {
+        openAIModelSelect.value = config.openAIModel;
+      }
+      
+      const openAIMaxTokensInput = document.getElementById('openAIMaxTokens');
+      if (openAIMaxTokensInput && config.openAIMaxTokens) {
+        openAIMaxTokensInput.value = config.openAIMaxTokens;
+      }
+      
       // Si no existe la configuración de orden de botones, inicializarla
       if (!config.buttonOrder) {
         config.buttonOrder = ['googleButton', 'duckduckgoButton', 'bingButton', 'openaiButton', 'amazonButton', 'youtubeButton'];
@@ -74,6 +95,59 @@ function loadConfig() {
       applyButtonOrder();
     }
   });
+  } else {
+    // Fallback para cuando chrome.storage no está disponible
+    console.log('chrome.storage.local no disponible, usando localStorage');
+    const savedConfig = localStorage.getItem('braveSearchConverterConfig');
+    if (savedConfig) {
+      config = JSON.parse(savedConfig);
+      
+      // Actualizar los selectores en la interfaz
+      const amazonDomainSelect = document.getElementById('amazonDomain');
+      if (amazonDomainSelect) {
+        amazonDomainSelect.value = config.amazonDomain;
+      }
+      
+      const youtubeDomainSelect = document.getElementById('youtubeDomain');
+      if (youtubeDomainSelect) {
+        youtubeDomainSelect.value = config.youtubeDomain;
+      }
+      
+      const defaultSearchEngineSelect = document.getElementById('defaultSearchEngine');
+      if (defaultSearchEngineSelect && config.defaultSearchEngine) {
+        defaultSearchEngineSelect.value = config.defaultSearchEngine;
+      }
+      
+      // Cargar configuración de OpenAI
+      const openAIApiKeyInput = document.getElementById('openAIApiKey');
+      if (openAIApiKeyInput && config.openAIApiKey) {
+        openAIApiKeyInput.value = config.openAIApiKey;
+      }
+      
+      const openAIModelSelect = document.getElementById('openAIModel');
+      if (openAIModelSelect && config.openAIModel) {
+        openAIModelSelect.value = config.openAIModel;
+      }
+      
+      const openAIMaxTokensInput = document.getElementById('openAIMaxTokens');
+      if (openAIMaxTokensInput && config.openAIMaxTokens) {
+        openAIMaxTokensInput.value = config.openAIMaxTokens;
+      }
+      
+      // Si no existe la configuración de orden de botones, inicializarla
+      if (!config.buttonOrder) {
+        config.buttonOrder = ['googleButton', 'duckduckgoButton', 'bingButton', 'openaiButton', 'amazonButton', 'youtubeButton'];
+      }
+      
+      // Si no existe la configuración de motor predeterminado, inicializarla
+      if (!config.defaultSearchEngine) {
+        config.defaultSearchEngine = 'googleButton';
+      }
+      
+      // Aplicar el orden de botones guardado
+      applyButtonOrder();
+    }
+  }
 }
 
 // Aplicar el orden de los botones en la interfaz
@@ -120,11 +194,27 @@ function saveConfig() {
   const amazonDomainSelect = document.getElementById('amazonDomain');
   const youtubeDomainSelect = document.getElementById('youtubeDomain');
   const defaultSearchEngineSelect = document.getElementById('defaultSearchEngine');
+  const openAIApiKeyInput = document.getElementById('openAIApiKey');
+  const openAIModelSelect = document.getElementById('openAIModel');
+  const openAIMaxTokensInput = document.getElementById('openAIMaxTokens');
   
   if (amazonDomainSelect && youtubeDomainSelect && defaultSearchEngineSelect) {
     config.amazonDomain = amazonDomainSelect.value;
     config.youtubeDomain = youtubeDomainSelect.value;
     config.defaultSearchEngine = defaultSearchEngineSelect.value;
+    
+    // Guardar configuración de OpenAI
+    if (openAIApiKeyInput) {
+      config.openAIApiKey = openAIApiKeyInput.value;
+    }
+    
+    if (openAIModelSelect) {
+      config.openAIModel = openAIModelSelect.value;
+    }
+    
+    if (openAIMaxTokensInput) {
+      config.openAIMaxTokens = parseInt(openAIMaxTokensInput.value) || 1000;
+    }
     
     // Obtener el orden actual de los botones desde la lista de configuración
     const buttonOrderList = document.getElementById('buttonOrderList');
@@ -136,10 +226,12 @@ function saveConfig() {
       config.buttonOrder = newOrder;
     }
     
-    // Guardar en chrome.storage.local
-    chrome.storage.local.set({
-      'braveSearchConverterConfig': JSON.stringify(config)
-    }, function() {
+    // Verificar si chrome.storage está disponible
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+      // Guardar en chrome.storage.local
+      chrome.storage.local.set({
+        'braveSearchConverterConfig': JSON.stringify(config)
+      }, function() {
       // Aplicar el nuevo orden de botones
       applyButtonOrder();
       
@@ -148,22 +240,48 @@ function saveConfig() {
       
       // Cerrar panel de configuración
       toggleConfigPanel(false);
-    });
+      });
+    } else {
+      // Fallback para cuando chrome.storage no está disponible
+      console.log('chrome.storage.local no disponible, usando localStorage');
+      localStorage.setItem('braveSearchConverterConfig', JSON.stringify(config));
+      
+      // Aplicar el nuevo orden de botones
+      applyButtonOrder();
+      
+      // Mostrar mensaje de éxito
+      updateStatus('Configuración guardada correctamente', 'success');
+      
+      // Cerrar panel de configuración
+      toggleConfigPanel(false);
+    }
   }
 }
 
-// Mostrar/ocultar panel de configuración
+// Mostrar/ocultar panel de configuración - versión simplificada
 function toggleConfigPanel(show) {
   const configPanel = document.getElementById('configPanel');
-  if (configPanel) {
-    if (show === undefined) {
-      // Toggle si no se especifica
-      configPanel.style.display = configPanel.style.display === 'none' ? 'block' : 'none';
-    } else {
-      // Establecer específicamente
-      configPanel.style.display = show ? 'block' : 'none';
-    }
+  if (!configPanel) {
+    console.error('Panel de configuración no encontrado');
+    return;
   }
+  
+  console.log('Panel encontrado, toggling visibility');
+  
+  // Método simple: alternar entre display block y none
+  if (show === undefined) {
+    // Si el panel está visible, ocultarlo; si está oculto, mostrarlo
+    if (configPanel.style.display === 'block') {
+      configPanel.style.display = 'none';
+    } else {
+      configPanel.style.display = 'block';
+    }
+  } else {
+    // Establecer específicamente
+    configPanel.style.display = show ? 'block' : 'none';
+  }
+  
+  console.log('Panel visibility set to:', configPanel.style.display);
 }
 
 // Función para animar botones durante el proceso
@@ -204,13 +322,25 @@ document.addEventListener('DOMContentLoaded', function() {
   loadConfig();
   
   // Configurar listeners para el panel de configuración
-  document.getElementById('configToggleButton').addEventListener('click', function() {
-    toggleConfigPanel();
-  });
+  const configToggleButton = document.getElementById('configToggleButton');
+  if (configToggleButton) {
+    configToggleButton.addEventListener('click', function() {
+      console.log('Botón de configuración clickeado');
+      toggleConfigPanel();
+    });
+  } else {
+    console.error('Botón de configuración no encontrado');
+  }
   
-  document.getElementById('saveConfigButton').addEventListener('click', function() {
-    saveConfig();
-  });
+  const saveConfigButton = document.getElementById('saveConfigButton');
+  if (saveConfigButton) {
+    saveConfigButton.addEventListener('click', function() {
+      console.log('Botón de guardar configuración clickeado');
+      saveConfig();
+    });
+  } else {
+    console.error('Botón de guardar configuración no encontrado');
+  }
   
   // Inicializar Sortable.js para permitir arrastrar y soltar los botones
   const buttonOrderList = document.getElementById('buttonOrderList');

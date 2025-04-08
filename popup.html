@@ -179,6 +179,11 @@
       padding: 16px;
       margin-top: 16px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+      display: none; /* Oculto por defecto */
+    }
+    
+    .config-panel.visible {
+      display: block !important; /* Visible cuando tiene la clase visible */
     }
     
     .config-panel h3 {
@@ -347,7 +352,8 @@
     </button>
   </div>
   
-  <div id="configPanel" class="config-panel" style="display: none;">
+  <!-- Panel de configuración (inicialmente oculto) -->
+  <div id="configPanel" class="config-panel">
     <h3>Configuración de dominios</h3>
     <div class="config-item">
       <label for="amazonDomain">Dominio de Amazon:</label>
@@ -380,6 +386,26 @@
         <option value="youtubeButton">YouTube</option>
       </select>
       <p class="config-description">Este motor se usará para la búsqueda rápida con botón derecho.</p>
+    </div>
+    
+    <h3>Configuración de OpenAI</h3>
+    <div class="config-item">
+      <label for="openAIApiKey">Clave API de OpenAI:</label>
+      <input type="password" id="openAIApiKey" placeholder="sk-..." />
+      <p class="config-description">Necesaria para la funcionalidad de captura y análisis de imágenes.</p>
+    </div>
+    <div class="config-item">
+      <label for="openAIModel">Modelo:</label>
+      <select id="openAIModel">
+        <option value="gpt-4o-mini">GPT-4o-mini (Recomendado)</option>
+        <option value="gpt-4o">GPT-4o (Más potente)</option>
+        <option value="gpt-3.5-turbo">GPT-3.5 Turbo (Más rápido)</option>
+      </select>
+    </div>
+    <div class="config-item">
+      <label for="openAIMaxTokens">Máximo de tokens:</label>
+      <input type="number" id="openAIMaxTokens" value="1000" min="100" max="4000" />
+      <p class="config-description">Límite de tokens para la respuesta (mayor = más detallada, pero más costosa).</p>
     </div>
     
     <h3>Orden de botones</h3>
@@ -419,7 +445,7 @@
   </div>
   
   <div class="footer">
-    <p>Versión 0.8 | <a href="https://github.com/686f6c61/extension-chrome-brave-to-google-search" target="_blank">GitHub</a></p>
+    <p>Versión 0.9 | <a href="https://github.com/686f6c61/extension-chrome-brave-to-google-search" target="_blank">GitHub</a></p>
   </div>
   
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>

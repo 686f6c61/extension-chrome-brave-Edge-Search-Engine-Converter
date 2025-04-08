@@ -55,15 +55,25 @@ function updateDynamicUrls() {
   searchEngines.youtubeButton.url = `https://www.youtube.${config.youtubeDomain}/results?search_query=`;
 }
 
+// Importar el módulo de captura de pantalla
+importScripts('screenshot.js');
+
 // Configurar menús contextuales
 function setupContextMenus() {
   // Limpiar menús existentes
   chrome.contextMenus.removeAll(function() {
-    // Crear menú principal
+    // Crear menú principal para búsqueda de texto
     chrome.contextMenus.create({
       id: 'searchSelection',
       title: 'Buscar "%s" en...',
       contexts: ['selection']
+    });
+    
+    // Crear menú para captura de pantalla
+    chrome.contextMenus.create({
+      id: 'captureScreenshot',
+      title: 'Capturar y analizar con OpenAI',
+      contexts: ['page', 'image']
     });
     
     // Crear submenús para cada motor de búsqueda
@@ -131,6 +141,36 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
     const engine = searchEngines[config.defaultSearchEngine];
     const searchUrl = engine.url + encodeURIComponent(info.selectionText);
     chrome.tabs.create({ url: searchUrl });
+  } else if (info.menuItemId === 'captureScreenshot') {
+    // Enfoque directo para la captura de pantalla
+    console.log('Capturando pantalla para tab:', tab.id);
+    
+    // Capturar la pantalla completa
+    chrome.tabs.captureVisibleTab(null, {format: 'png'}, function(dataUrl) {
+      if (chrome.runtime.lastError) {
+        console.error('Error al capturar pantalla:', chrome.runtime.lastError);
+        return;
+      }
+      
+      console.log('Pantalla capturada correctamente');
+      
+      // Abrir una nueva pestaña con la imagen capturada y herramientas para seleccionar área
+      chrome.tabs.create({url: 'capture.html'}, function(newTab) {
+        // Esperar a que la página se cargue completamente
+        chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
+          if (tabId === newTab.id && changeInfo.status === 'complete') {
+            // Eliminar el listener una vez que la página esté cargada
+            chrome.tabs.onUpdated.removeListener(listener);
+            
+            // Enviar la imagen capturada a la nueva pestaña
+            chrome.tabs.sendMessage(newTab.id, {
+              action: 'setScreenshot',
+              dataUrl: dataUrl
+            });
+          }
+        });
+      });
+    });
   } else if (searchEngines[info.menuItemId]) {
     // Búsqueda con motor específico
     const engine = searchEngines[info.menuItemId];

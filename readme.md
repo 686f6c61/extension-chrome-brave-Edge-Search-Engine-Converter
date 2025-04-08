@@ -13,9 +13,9 @@
 [<img src="https://www.amazon.es/favicon.ico" width="32" alt="Amazon">](https://www.amazon.es) &nbsp;&nbsp;
 [<img src="https://www.youtube.com/favicon.ico" width="32" alt="YouTube">](https://www.youtube.com)
 
-_Convierte tus búsquedas de Brave a Google, DuckDuckGo, Bing, OpenAI, Amazon y YouTube con un solo clic o desde el menú contextual_
+_Convierte tus búsquedas de Brave a Google, DuckDuckGo, Bing, OpenAI, Amazon y YouTube con un solo clic o desde el menú contextual. Captura y analiza imágenes con OpenAI._
 
-[![Versión](https://img.shields.io/badge/versi%C3%B3n-0.8-blue)](https://github.com/686f6c61/extension-chrome-brave-to-google-search)
+[![Versión](https://img.shields.io/badge/versi%C3%B3n-0.9-blue)](https://github.com/686f6c61/extension-chrome-brave-to-google-search)
 [![Chrome](https://img.shields.io/badge/Chrome-compatible-brightgreen)](https://github.com/686f6c61/extension-chrome-brave-to-google-search)
 [![Brave](https://img.shields.io/badge/Brave-compatible-brightgreen)](https://github.com/686f6c61/extension-chrome-brave-to-google-search)
 
@@ -39,6 +39,8 @@ _Convierte tus búsquedas de Brave a Google, DuckDuckGo, Bing, OpenAI, Amazon y 
 - 💾 Guarda tus preferencias automáticamente entre sesiones
 - 💬 Menú contextual para buscar texto seleccionado en cualquier página web
 - 🔐 Búsqueda rápida con motor predeterminado configurable
+- 📸 Captura de áreas específicas de la pantalla para análisis con OpenAI
+- 🤖 Integración con el modelo GPT-4o-mini para análisis de imágenes
 
 ## 🖼️ Capturas de pantalla
 
@@ -49,6 +51,10 @@ _Convierte tus búsquedas de Brave a Google, DuckDuckGo, Bing, OpenAI, Amazon y 
 ### Menú contextual
 
 ![Captura de pantalla del menú contextual](images/texto.png)
+
+### Captura y análisis con OpenAI
+
+![Captura de pantalla de análisis con OpenAI](images/openai.png)
 
 #### Popup de la extensión:
 - Panel principal con el título "Brave Search Converter"
@@ -62,6 +68,18 @@ _Convierte tus búsquedas de Brave a Google, DuckDuckGo, Bing, OpenAI, Amazon y 
 - Submenú para buscar en cualquiera de los motores disponibles
 - Posibilidad de establecer el motor de búsqueda predeterminado
 - Funciona en cualquier página web con texto seleccionado
+- Opción para capturar y analizar áreas de la pantalla con OpenAI
+
+#### Captura y análisis con OpenAI:
+- Captura de pantalla completa con un solo clic desde el menú contextual
+- Interfaz dedicada para seleccionar con precisión el área a analizar
+- Análisis de imágenes utilizando modelos avanzados de OpenAI
+- Resultados detallados presentados en una interfaz clara y legible
+- Configuración personalizable de API key, modelo y límite de tokens
+- Soporte para múltiples modelos de OpenAI:
+  - GPT-4o-mini (recomendado): Equilibrio entre rendimiento y velocidad
+  - GPT-4o: Mayor capacidad de análisis y detalle
+  - GPT-3.5 Turbo: Opción más rápida y económica
 
 ## 🚀 Instalación
 
@@ -117,23 +135,56 @@ _La extensión estará disponible en Chrome Web Store._
 
 4. Al seleccionar cualquier opción, se abrirá una nueva pestaña con los resultados de la búsqueda
 
+### Captura y análisis de pantalla con OpenAI
+
+1. Haz clic derecho en cualquier parte de una página web
+
+2. Selecciona "Capturar y analizar con OpenAI" en el menú contextual
+
+3. Se capturará automáticamente la pantalla visible y se abrirá una nueva pestaña
+
+4. En la nueva pestaña, haz clic y arrastra para seleccionar el área específica que deseas analizar
+
+5. Haz clic en el botón "Analizar con OpenAI" para procesar la imagen seleccionada
+
+6. Espera unos segundos mientras se procesa la imagen y se muestra el resultado del análisis
+
+7. Puedes cerrar la ventana de resultados o la pestaña completa cuando hayas terminado
+
 ### Personalización
 
 1. Haz clic en el botón "Configuración" en el popup de la extensión
 
 2. Puedes configurar:
    - Dominios regionales para Amazon y YouTube
+   - Clave API de OpenAI para el análisis de imágenes
+   - Modelo de OpenAI a utilizar (gpt-4o-mini por defecto)
+   - Límite de tokens para las respuestas de OpenAI (ajustable entre 100 y 4000)
    - Motor de búsqueda predeterminado para el menú contextual
    - Orden de los botones mediante arrastrar y soltar
 
 3. Haz clic en "Guardar" para aplicar los cambios
 
+## 🤖 Modelos de OpenAI soportados
+
+La extensión soporta los siguientes modelos de OpenAI para el análisis de imágenes:
+
+| Modelo | Descripción | Caso de uso recomendado |
+|--------|-------------|------------------------|
+| GPT-4o-mini | Versión más ligera de GPT-4o | Uso general, buen equilibrio entre rendimiento y velocidad |
+| GPT-4o | Modelo más potente con capacidades multimodales | Análisis detallado de imágenes complejas |
+| GPT-3.5 Turbo | Modelo más rápido y económico | Análisis básico de imágenes sencillas |
+
+Para más información sobre las capacidades y características de cada modelo, visita la [documentación oficial de OpenAI](https://platform.openai.com/docs/models).
+
 ## ⚠️ Limitaciones
 
-- La extensión solo funciona en páginas de resultados de búsqueda de Brave
+- La funcionalidad de conversión de búsquedas solo funciona en páginas de resultados de búsqueda de Brave
 - Requiere una conexión a internet activa para redirigir a los motores de búsqueda
 - Para OpenAI, es posible que necesites estar logueado o tener una cuenta para acceder a ChatGPT
-- No recopila ni almacena datos de búsqueda
+- La funcionalidad de captura y análisis requiere una clave API válida de OpenAI
+- El uso de la API de OpenAI puede generar costos según su política de precios
+- No recopila ni almacena datos de búsqueda o imágenes capturadas
 
 ## 👥 Contribuciones
 
