@@ -1,3 +1,14 @@
+<!--
+  popup.html - Extension Popup Interface
+  
+  Primary user interface component for the search engine converter extension.
+  Implements a responsive grid of search buttons, configuration panels, and status indicators.
+  
+  Dependencies:
+  - Roboto font from Google Fonts
+  - Font Awesome 6.0.0+ for iconography
+  - SortableJS for drag-and-drop functionality
+-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
+    /* Extension popup container dimensions and base styling */
     body {
       width: 320px;
       padding: 16px;
@@ -17,6 +29,7 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
     
+    /* Header component with logo and title */
     .header {
       display: flex;
       align-items: center;
@@ -45,6 +58,7 @@
       color: #4285F4;
     }
     
+    /* Status indicator container */
     .status-container {
       background-color: #f5f5f5;
       padding: 16px;
@@ -78,6 +92,7 @@
       color: #212121;
     }
     
+    /* Search engine button grid layout */
     .search-buttons {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -85,6 +100,7 @@
       margin-bottom: 16px;
     }
     
+    /* Base styling for search engine buttons */
     .search-button {
       background-color: #212121;
       color: white;
@@ -106,6 +122,7 @@
       margin-right: 8px;
     }
     
+    /* Search engine specific icon colors */
     #googleButton i {
       color: #4285F4;
     }
@@ -138,6 +155,7 @@
       color: #000000;
     }
     
+    /* Button state styles */
     .search-button:hover {
       background-color: #000000;
     }
@@ -151,6 +169,7 @@
       cursor: not-allowed;
     }
     
+    /* Configuration toggle section */
     .config-toggle {
       margin-top: 10px;
       text-align: center;
@@ -181,17 +200,18 @@
       background-color: #e0e0e0;
     }
     
+    /* Configuration panel component */
     .config-panel {
       background-color: #f5f5f5;
       border-radius: 8px;
       padding: 16px;
       margin-top: 16px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-      display: none; /* Oculto por defecto */
+      display: none; /* Hidden by default, shown via JS */
     }
     
     .config-panel.visible {
-      display: block !important; /* Visible cuando tiene la clase visible */
+      display: block !important; /* Overrides default when visible */
     }
     
     .config-panel h3 {
@@ -201,6 +221,7 @@
       color: #212121;
     }
     
+    /* Configuration item styling */
     .config-item {
       margin-bottom: 12px;
     }
@@ -221,6 +242,7 @@
       font-size: 14px;
     }
     
+    /* Configuration action buttons */
     .config-actions {
       margin-top: 16px;
       text-align: right;
@@ -249,6 +271,7 @@
       margin-bottom: 8px;
     }
     
+    /* Sortable button list for reordering */
     .button-order-list {
       list-style: none;
       padding: 0;
@@ -286,6 +309,7 @@
       margin-right: 8px;
     }
     
+    /* Footer component */
     .footer {
       font-size: 11px;
       color: #757575;
@@ -304,6 +328,7 @@
       text-decoration: underline;
     }
 
+    /* Animation for highlighting interactive elements */
     .pulse {
       animation: pulse-animation 1s infinite;
     }
@@ -322,6 +347,7 @@
   </style>
 </head>
 <body>
+  <!-- Header with logo -->
   <div class="header">
     <div class="logo">
       <i class="fas fa-exchange-alt"></i>
@@ -329,10 +355,12 @@
     </div>
   </div>
   
+  <!-- Status indicator -->
   <div class="status-container">
     <p id="status"><i class="fas fa-info-circle"></i> Selecciona un motor de búsqueda</p>
   </div>
   
+  <!-- Search engine button grid -->
   <div class="search-buttons">
     <button id="googleButton" class="search-button">
       <i class="fab fa-google"></i> Google
@@ -360,14 +388,16 @@
     </button>
   </div>
   
+  <!-- Configuration toggle button -->
   <div class="config-toggle">
     <button id="configToggleButton" class="config-button">
       <i class="fas fa-cog"></i> Configuración
     </button>
   </div>
   
-  <!-- Panel de configuración (inicialmente oculto) -->
+  <!-- Configuration panel (initially hidden) -->
   <div id="configPanel" class="config-panel">
+    <!-- Domain configuration section -->
     <h3>Configuración de dominios</h3>
     <div class="config-item">
       <label for="amazonDomain">Dominio de Amazon:</label>
@@ -388,6 +418,7 @@
       </select>
     </div>
     
+    <!-- Context menu configuration section -->
     <h3>Menú contextual</h3>
     <div class="config-item">
       <label for="defaultSearchEngine">Motor de búsqueda predeterminado:</label>
@@ -404,6 +435,7 @@
       <p class="config-description">Este motor se usará para la búsqueda rápida con botón derecho.</p>
     </div>
     
+    <!-- OpenAI API configuration section -->
     <h3>Configuración de OpenAI</h3>
     <div class="config-item">
       <label for="openAIApiKey">Clave API de OpenAI:</label>
@@ -424,6 +456,7 @@
       <p class="config-description">Límite de tokens para la respuesta (mayor = más detallada, pero más costosa).</p>
     </div>
     
+    <!-- Button order customization section -->
     <h3>Orden de botones</h3>
     <div class="config-item">
       <p class="config-description">Arrastra para cambiar el orden de los botones:</p>
@@ -463,16 +496,20 @@
       </ul>
     </div>
     
+    <!-- Save configuration button -->
     <div class="config-actions">
       <button id="saveConfigButton" class="config-save-button">Guardar</button>
     </div>
   </div>
   
+  <!-- Footer with version and repository link -->
   <div class="footer">
     <p>Versión 1.1 | <a href="https://github.com/686f6c61/extension-chrome-brave-Edge-Search-Engine-Converter" target="_blank">GitHub</a></p>
   </div>
   
+  <!-- External dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
-<script src="popup.js"></script>
+  <!-- Application script -->
+  <script src="popup.js"></script>
 </body>
 </html>
