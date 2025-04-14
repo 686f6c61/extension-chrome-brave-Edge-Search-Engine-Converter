@@ -2,7 +2,7 @@
 let config = {
   amazonDomain: 'es',
   youtubeDomain: 'com',
-  buttonOrder: ['googleButton', 'duckduckgoButton', 'bingButton', 'openaiButton', 'amazonButton', 'youtubeButton'],
+  buttonOrder: ['googleButton', 'duckduckgoButton', 'bingButton', 'openaiButton', 'amazonButton', 'youtubeButton', 'braveButton', 'wikipediaButton'],
   defaultSearchEngine: 'googleButton' // Motor de búsqueda predeterminado para el menú contextual
 };
 
@@ -31,14 +31,76 @@ const searchEngines = {
   'youtubeButton': {
     url: null, // Se actualiza dinámicamente según el dominio configurado
     name: 'YouTube'
+  },
+  'braveButton': {
+    url: 'https://search.brave.com/search?q=',
+    name: 'Brave'
+  },
+  'wikipediaButton': {
+    url: 'https://es.wikipedia.org/wiki/Special:Search?search=',
+    name: 'Wikipedia'
   }
 };
 
+// Definir los patrones de búsqueda para diferentes motores
+const searchEnginePatterns = {
+  'brave': {
+    pattern: 'https://search.brave.com/search',
+    queryParam: 'q'
+  },
+  'google': {
+    pattern: 'https://www.google.com/search',
+    queryParam: 'q'
+  },
+  'duckduckgo': {
+    pattern: 'https://duckduckgo.com/',
+    queryParam: 'q'
+  },
+  'bing': {
+    pattern: 'https://www.bing.com/search',
+    queryParam: 'q'
+  },
+  'youtube': {
+    pattern: 'https://www.youtube.com/results',
+    queryParam: 'search_query'
+  },
+  'amazon': {
+    pattern: 'https://www.amazon.',
+    queryParam: 'k'
+  },
+  'wikipedia': {
+    pattern: 'https://es.wikipedia.org/wiki/Special:Search',
+    queryParam: 'search'
+  }
+};
+
+// Detectar el motor de búsqueda actual
+function detectSearchEngine(url) {
+  if (!url) return null;
+  
+  const urlObj = new URL(url);
+  
+  for (const [engine, data] of Object.entries(searchEnginePatterns)) {
+    if (url.startsWith(data.pattern)) {
+      const query = urlObj.searchParams.get(data.queryParam);
+      if (query) {
+        return {
+          name: engine,
+          query: query,
+          param: data.queryParam
+        };
+      }
+    }
+  }
+  
+  return null;
+}
+
 // Cargar configuración guardada
 function loadConfig() {
-  chrome.storage.local.get('braveSearchConverterConfig', function(data) {
-    if (data.braveSearchConverterConfig) {
-      config = JSON.parse(data.braveSearchConverterConfig);
+  chrome.storage.local.get('searchEngineConverterConfig', function(data) {
+    if (data.searchEngineConverterConfig) {
+      config = JSON.parse(data.searchEngineConverterConfig);
       
       // Actualizar URLs dinámicas
       updateDynamicUrls();
@@ -59,6 +121,8 @@ function updateDynamicUrls() {
   searchEngines.duckduckgoButton.url = 'https://duckduckgo.com/?q=';
   searchEngines.bingButton.url = 'https://www.bing.com/search?q=';
   searchEngines.openaiButton.url = 'https://chat.openai.com/chat?q=';
+  searchEngines.braveButton.url = 'https://search.brave.com/search?q=';
+  searchEngines.wikipediaButton.url = 'https://es.wikipedia.org/wiki/Special:Search?search=';
   
   // Asegurarse de que los dominios tengan un formato válido
   const amazonDomain = config.amazonDomain ? config.amazonDomain.trim() : 'es';
@@ -154,6 +218,47 @@ function setupContextMenus() {
   });
 }
 
+// Crear menú contextual para cambiar el motor de búsqueda en una página de búsqueda
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+  if (changeInfo.status === 'complete' && tab.url) {
+    try {
+      const searchEngine = detectSearchEngine(tab.url);
+      
+      if (searchEngine) {
+        // Configurar menú contextual para cambio de motor
+        chrome.contextMenus.removeAll(function() {
+          // Menú principal para cambio de motor
+          chrome.contextMenus.create({
+            id: 'changeEngine',
+            title: `Cambiar de ${searchEngine.name.toUpperCase()} a otro motor`,
+            contexts: ['page']
+          });
+          
+          // Crear submenús para cada motor de búsqueda (excepto el actual)
+          for (const [buttonId, engine] of Object.entries(searchEngines)) {
+            // No mostrar el motor actual como opción
+            if (buttonId.toLowerCase().startsWith(searchEngine.name)) {
+              continue;
+            }
+            
+            chrome.contextMenus.create({
+              id: `change_${buttonId}`,
+              parentId: 'changeEngine',
+              title: engine.name,
+              contexts: ['page']
+            });
+          }
+          
+          // Restablecer el menú para búsqueda de texto seleccionado
+          setupContextMenus();
+        });
+      }
+    } catch (error) {
+      console.error('Error al procesar la URL para el menú contextual:', error);
+    }
+  }
+});
+
 // Manejar clics en el menú contextual
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
   if (info.menuItemId.startsWith('default_')) {
@@ -163,7 +268,7 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
     
     // Guardar configuración
     chrome.storage.local.set({
-      'braveSearchConverterConfig': JSON.stringify(config)
+      'searchEngineConverterConfig': JSON.stringify(config)
     });
     
     // Actualizar menús
@@ -212,6 +317,29 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
         });
       });
     });
+  } else if (info.menuItemId.startsWith('change_')) {
+    // Cambiar el motor de búsqueda desde el menú contextual
+    const engineId = info.menuItemId.replace('change_', '');
+    const engine = searchEngines[engineId];
+    
+    if (!engine || !engine.url) {
+      console.error(`Motor de búsqueda no válido: ${engineId}`);
+      return;
+    }
+    
+    try {
+      // Detectar el motor de búsqueda actual
+      const searchEngine = detectSearchEngine(tab.url);
+      
+      if (searchEngine) {
+        // Construir y abrir la URL de búsqueda
+        const newUrl = engine.url + encodeURIComponent(searchEngine.query);
+        console.log(`Cambiando de ${searchEngine.name} a ${engine.name}: ${newUrl}`);
+        chrome.tabs.update(tab.id, { url: newUrl });
+      }
+    } catch (error) {
+      console.error('Error al procesar la URL para cambiar el motor de búsqueda:', error);
+    }
   } else if (searchEngines[info.menuItemId]) {
     // Búsqueda con motor específico
     const engine = searchEngines[info.menuItemId];
@@ -232,9 +360,9 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
 // Inicializar extensión
 chrome.runtime.onInstalled.addListener(function() {
   // Cargar configuración y esperar a que se complete
-  chrome.storage.local.get('braveSearchConverterConfig', function(data) {
-    if (data.braveSearchConverterConfig) {
-      config = JSON.parse(data.braveSearchConverterConfig);
+  chrome.storage.local.get('searchEngineConverterConfig', function(data) {
+    if (data.searchEngineConverterConfig) {
+      config = JSON.parse(data.searchEngineConverterConfig);
     }
     
     // Actualizar URLs dinámicas
@@ -247,7 +375,7 @@ chrome.runtime.onInstalled.addListener(function() {
 
 // Escuchar cambios en la configuración
 chrome.storage.onChanged.addListener(function(changes, namespace) {
-  if (namespace === 'local' && changes.braveSearchConverterConfig) {
+  if (namespace === 'local' && changes.searchEngineConverterConfig) {
     loadConfig();
   }
 });

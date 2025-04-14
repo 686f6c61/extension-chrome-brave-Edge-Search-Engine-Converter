@@ -34,7 +34,7 @@ function updateStatus(message, type = 'info') {
 let config = {
   amazonDomain: 'es',
   youtubeDomain: 'com',
-  buttonOrder: ['googleButton', 'duckduckgoButton', 'bingButton', 'openaiButton', 'amazonButton', 'youtubeButton'],
+  buttonOrder: ['googleButton', 'duckduckgoButton', 'bingButton', 'openaiButton', 'amazonButton', 'youtubeButton', 'braveButton', 'wikipediaButton'],
   defaultSearchEngine: 'googleButton', // Motor de búsqueda predeterminado para el menú contextual
   openAIApiKey: '', // Clave API de OpenAI
   openAIModel: 'gpt-4o-mini', // Modelo de OpenAI predeterminado
@@ -45,9 +45,9 @@ let config = {
 function loadConfig() {
   // Verificar si chrome.storage está disponible
   if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-    chrome.storage.local.get('braveSearchConverterConfig', function(data) {
-    if (data.braveSearchConverterConfig) {
-      config = JSON.parse(data.braveSearchConverterConfig);
+    chrome.storage.local.get('searchEngineConverterConfig', function(data) {
+    if (data.searchEngineConverterConfig) {
+      config = JSON.parse(data.searchEngineConverterConfig);
       
       // Actualizar los selectores en la interfaz
       const amazonDomainSelect = document.getElementById('amazonDomain');
@@ -98,7 +98,7 @@ function loadConfig() {
   } else {
     // Fallback para cuando chrome.storage no está disponible
     console.log('chrome.storage.local no disponible, usando localStorage');
-    const savedConfig = localStorage.getItem('braveSearchConverterConfig');
+    const savedConfig = localStorage.getItem('searchEngineConverterConfig');
     if (savedConfig) {
       config = JSON.parse(savedConfig);
       
@@ -230,7 +230,7 @@ function saveConfig() {
     if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
       // Guardar en chrome.storage.local
       chrome.storage.local.set({
-        'braveSearchConverterConfig': JSON.stringify(config)
+        'searchEngineConverterConfig': JSON.stringify(config)
       }, function() {
       // Aplicar el nuevo orden de botones
       applyButtonOrder();
@@ -244,7 +244,7 @@ function saveConfig() {
     } else {
       // Fallback para cuando chrome.storage no está disponible
       console.log('chrome.storage.local no disponible, usando localStorage');
-      localStorage.setItem('braveSearchConverterConfig', JSON.stringify(config));
+      localStorage.setItem('searchEngineConverterConfig', JSON.stringify(config));
       
       // Aplicar el nuevo orden de botones
       applyButtonOrder();
@@ -293,7 +293,9 @@ function animateButtons(isProcessing = false, buttonId = null) {
     'bingButton': '<i class="fab fa-microsoft" style="color: #008373;"></i> Bing',
     'openaiButton': '<i class="fas fa-robot" style="color: #10A37F;"></i> OpenAI',
     'amazonButton': '<i class="fab fa-amazon" style="color: #FF9900;"></i> Amazon',
-    'youtubeButton': '<i class="fab fa-youtube" style="color: #FF0000;"></i> YouTube'
+    'youtubeButton': '<i class="fab fa-youtube" style="color: #FF0000;"></i> YouTube',
+    'braveButton': '<i class="fas fa-shield-alt" style="color: #FB542B;"></i> Brave',
+    'wikipediaButton': '<i class="fab fa-wikipedia-w" style="color: #000000;"></i> Wikipedia'
   };
   
   if (isProcessing && buttonId) {
@@ -316,7 +318,57 @@ function animateButtons(isProcessing = false, buttonId = null) {
   }
 }
 
-// Detectar si estamos en una página de Brave Search al abrir el popup
+// Definir los patrones de búsqueda para diferentes motores
+const searchEnginePatterns = {
+  'brave': {
+    pattern: 'https://search.brave.com/search',
+    queryParam: 'q'
+  },
+  'google': {
+    pattern: 'https://www.google.com/search',
+    queryParam: 'q'
+  },
+  'duckduckgo': {
+    pattern: 'https://duckduckgo.com/',
+    queryParam: 'q'
+  },
+  'bing': {
+    pattern: 'https://www.bing.com/search',
+    queryParam: 'q'
+  },
+  'youtube': {
+    pattern: 'https://www.youtube.com/results',
+    queryParam: 'search_query'
+  },
+  'amazon': {
+    pattern: 'https://www.amazon.',
+    queryParam: 'k'
+  }
+};
+
+// Detectar el motor de búsqueda actual
+function detectSearchEngine(url) {
+  if (!url) return null;
+  
+  const urlObj = new URL(url);
+  
+  for (const [engine, data] of Object.entries(searchEnginePatterns)) {
+    if (url.startsWith(data.pattern)) {
+      const query = urlObj.searchParams.get(data.queryParam);
+      if (query) {
+        return {
+          name: engine,
+          query: query,
+          param: data.queryParam
+        };
+      }
+    }
+  }
+  
+  return null;
+}
+
+// Detectar si estamos en una página de búsqueda al abrir el popup
 document.addEventListener('DOMContentLoaded', function() {
   // Cargar configuración guardada
   loadConfig();
@@ -357,15 +409,23 @@ document.addEventListener('DOMContentLoaded', function() {
   
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     let currentTab = tabs[0];
-    if (currentTab.url.startsWith('https://search.brave.com/search?')) {
-      updateStatus('¿A qué motor deseas cambiar?', 'info');
-    } else {
-      updateStatus('No estás en Brave Search', 'warning');
-      // Desactivar todos los botones
-      document.querySelectorAll('.search-button').forEach(button => {
-        button.disabled = true;
-        button.style.backgroundColor = '#555555';
-      });
+    try {
+      // Detectar si estamos en una página de búsqueda
+      const searchEngine = detectSearchEngine(currentTab.url);
+      
+      if (searchEngine) {
+        updateStatus(`Búsqueda detectada en ${searchEngine.name}. ¿A qué motor deseas cambiar?`, 'info');
+      } else {
+        updateStatus('No estás en una página de búsqueda compatible', 'warning');
+        // Desactivar todos los botones
+        document.querySelectorAll('.search-button').forEach(button => {
+          button.disabled = true;
+          button.style.backgroundColor = '#555555';
+        });
+      }
+    } catch (error) {
+      updateStatus('Error al analizar la URL', 'error');
+      console.error('Error al analizar la URL:', error);
     }
   });
 });
@@ -374,39 +434,50 @@ document.addEventListener('DOMContentLoaded', function() {
 function changeSearchEngine(engineName, engineUrl) {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     let currentTab = tabs[0];
-    if (currentTab.url.startsWith('https://search.brave.com/search?')) {
-      // Animar botones mientras se procesa
-      const buttonId = {
-        'Google': 'googleButton',
-        'DuckDuckGo': 'duckduckgoButton',
-        'Bing': 'bingButton',
-        'OpenAI': 'openaiButton',
-        'Amazon': 'amazonButton',
-        'YouTube': 'youtubeButton'
-      }[engineName];
+    
+    try {
+      // Detectar el motor de búsqueda actual
+      const searchEngine = detectSearchEngine(currentTab.url);
       
-      animateButtons(true, buttonId);
-      
-      let url = new URL(currentTab.url);
-      let query = url.searchParams.get('q');
-      let newUrl = `${engineUrl}${encodeURIComponent(query)}`;
-      
-      // Pequeña demora para mostrar la animación
-      setTimeout(() => {
-        chrome.tabs.update(currentTab.id, {url: newUrl}, function() {
-          if (chrome.runtime.lastError) {
-            updateStatus('Error: ' + chrome.runtime.lastError.message, 'error');
-            animateButtons(false);
-          } else {
-            updateStatus(`¡Cambiado a ${engineName} con éxito!`, 'success');
-            setTimeout(() => {
+      if (searchEngine) {
+        // Animar botones mientras se procesa
+        const buttonId = {
+          'Google': 'googleButton',
+          'DuckDuckGo': 'duckduckgoButton',
+          'Bing': 'bingButton',
+          'OpenAI': 'openaiButton',
+          'Amazon': 'amazonButton',
+          'YouTube': 'youtubeButton',
+          'Brave': 'braveButton',
+          'Wikipedia': 'wikipediaButton'
+        }[engineName];
+        
+        animateButtons(true, buttonId);
+        
+        let query = searchEngine.query;
+        let newUrl = `${engineUrl}${encodeURIComponent(query)}`;
+        
+        // Pequeña demora para mostrar la animación
+        setTimeout(() => {
+          chrome.tabs.update(currentTab.id, {url: newUrl}, function() {
+            if (chrome.runtime.lastError) {
+              updateStatus('Error: ' + chrome.runtime.lastError.message, 'error');
               animateButtons(false);
-            }, 1000);
-          }
-        });
-      }, 500);
-    } else {
-      updateStatus('No estás en una página de Brave Search', 'warning');
+            } else {
+              updateStatus(`¡Cambiado a ${engineName} con éxito!`, 'success');
+              setTimeout(() => {
+                animateButtons(false);
+              }, 1000);
+            }
+          });
+        }, 500);
+      } else {
+        updateStatus('No estás en una página de búsqueda compatible', 'warning');
+      }
+    } catch (error) {
+      updateStatus('Error al procesar la búsqueda', 'error');
+      console.error('Error al procesar la búsqueda:', error);
+      animateButtons(false);
     }
   });
 }
@@ -434,6 +505,23 @@ document.getElementById('amazonButton').addEventListener('click', function() {
 });
 
 document.getElementById('youtubeButton').addEventListener('click', function() {
-  const youtubeUrl = `https://www.youtube.${config.youtubeDomain}/results?search_query=`;
+  // Fix: Usar el patrón correcto para la URL de YouTube con el dominio configurado
+  const youtubeDomain = config.youtubeDomain || 'com';
+  let youtubeUrl;
+  
+  if (youtubeDomain.startsWith('.')) {
+    youtubeUrl = `https://www.youtube${youtubeDomain}/results?search_query=`;
+  } else {
+    youtubeUrl = `https://www.youtube.com/${youtubeDomain === 'com' ? '' : youtubeDomain + '/'}results?search_query=`;
+  }
+  
   changeSearchEngine('YouTube', youtubeUrl);
+});
+
+document.getElementById('braveButton').addEventListener('click', function() {
+  changeSearchEngine('Brave', 'https://search.brave.com/search?q=');
+});
+
+document.getElementById('wikipediaButton').addEventListener('click', function() {
+  changeSearchEngine('Wikipedia', 'https://es.wikipedia.org/wiki/Special:Search?search=');
 });

@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Brave Search Converter</title>
+  <title>Search Engine Converter</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
@@ -128,6 +128,14 @@
     
     #youtubeButton i {
       color: #FF0000;
+    }
+    
+    #braveButton i {
+      color: #FB542B;
+    }
+    
+    #wikipediaButton i {
+      color: #000000;
     }
     
     .search-button:hover {
@@ -317,7 +325,7 @@
   <div class="header">
     <div class="logo">
       <i class="fas fa-exchange-alt"></i>
-      <span class="brave">Brave</span> Search Converter
+      Search Engine Converter
     </div>
   </div>
   
@@ -343,6 +351,12 @@
     </button>
     <button id="youtubeButton" class="search-button">
       <i class="fab fa-youtube"></i> YouTube
+    </button>
+    <button id="braveButton" class="search-button">
+      <i class="fas fa-shield-alt"></i> Brave
+    </button>
+    <button id="wikipediaButton" class="search-button">
+      <i class="fab fa-wikipedia-w"></i> Wikipedia
     </button>
   </div>
   
@@ -384,6 +398,8 @@
         <option value="openaiButton">OpenAI</option>
         <option value="amazonButton">Amazon</option>
         <option value="youtubeButton">YouTube</option>
+        <option value="braveButton">Brave</option>
+        <option value="wikipediaButton">Wikipedia</option>
       </select>
       <p class="config-description">Este motor se usará para la búsqueda rápida con botón derecho.</p>
     </div>
@@ -436,6 +452,14 @@
           <i class="fas fa-grip-lines"></i>
           <i class="fab fa-youtube" style="color: #FF0000;"></i> YouTube
         </li>
+        <li data-id="braveButton" class="button-order-item">
+          <i class="fas fa-grip-lines"></i>
+          <i class="fas fa-shield-alt" style="color: #FB542B;"></i> Brave
+        </li>
+        <li data-id="wikipediaButton" class="button-order-item">
+          <i class="fas fa-grip-lines"></i>
+          <i class="fab fa-wikipedia-w" style="color: #000000;"></i> Wikipedia
+        </li>
       </ul>
     </div>
     
@@ -445,7 +469,7 @@
   </div>
   
   <div class="footer">
-    <p>Versión 0.9 | <a href="https://github.com/686f6c61/extension-chrome-brave-to-google-search" target="_blank">GitHub</a></p>
+    <p>Versión 1.1 | <a href="https://github.com/686f6c61/extension-chrome-search-engine-converter" target="_blank">GitHub</a></p>
   </div>
   
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>

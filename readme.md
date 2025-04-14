@@ -1,8 +1,8 @@
 <div align="center">
 
-# Brave Search Converter
+# Search Engine Converter
 
-<img src="images/icon256.png" alt="Brave Search Converter Logo" width="128px" height="128px">
+<img src="images/icon256.png" alt="Search Engine Converter Logo" width="128px" height="128px">
 
 ### Motores de búsqueda soportados:
 
@@ -11,33 +11,35 @@
 [<img src="https://duckduckgo.com/favicon.ico" width="32" alt="DuckDuckGo">](https://duckduckgo.com) &nbsp;&nbsp;
 [<img src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" width="32" alt="OpenAI">](https://chat.openai.com) &nbsp;&nbsp;
 [<img src="https://www.amazon.es/favicon.ico" width="32" alt="Amazon">](https://www.amazon.es) &nbsp;&nbsp;
-[<img src="https://www.youtube.com/favicon.ico" width="32" alt="YouTube">](https://www.youtube.com)
+[<img src="https://www.youtube.com/favicon.ico" width="32" alt="YouTube">](https://www.youtube.com) &nbsp;&nbsp;
+[<img src="https://es.wikipedia.org/static/favicon/wikipedia.ico" width="32" alt="Wikipedia">](https://es.wikipedia.org)
 
-_Convierte tus búsquedas de Brave a Google, DuckDuckGo, Bing, OpenAI, Amazon y YouTube con un solo clic o desde el menú contextual. Captura y analiza imágenes con OpenAI._
+_Convierte tus búsquedas entre Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon, YouTube y Wikipedia con un solo clic o desde el menú contextual. Captura y analiza imágenes con OpenAI._
 
-[![Versión](https://img.shields.io/badge/versi%C3%B3n-0.9-blue)](https://github.com/686f6c61/extension-chrome-brave-to-google-search)
-[![Chrome](https://img.shields.io/badge/Chrome-compatible-brightgreen)](https://github.com/686f6c61/extension-chrome-brave-to-google-search)
-[![Brave](https://img.shields.io/badge/Brave-compatible-brightgreen)](https://github.com/686f6c61/extension-chrome-brave-to-google-search)
+[![Versión](https://img.shields.io/badge/versi%C3%B3n-1.1-blue)](https://github.com/686f6c61/extension-chrome-search-engine-converter)
+[![Chrome](https://img.shields.io/badge/Chrome-compatible-brightgreen)](https://github.com/686f6c61/extension-chrome-search-engine-converter)
+[![Brave](https://img.shields.io/badge/Brave-compatible-brightgreen)](https://github.com/686f6c61/extension-chrome-search-engine-converter)
 
 </div>
 
 ## 📝 Descripción
 
-**Brave Search Converter** es una extensión minimalista para Chrome/Brave que te permite cambiar fácilmente de los resultados de búsqueda de Brave a los resultados equivalentes en Google, DuckDuckGo, Bing, OpenAI, Amazon o YouTube. Con un simple clic, la extensión redirige la página de resultados de Brave Search a la página correspondiente del motor de búsqueda seleccionado, conservando exactamente los mismos términos de búsqueda.
+**Search Engine Converter** es una extensión minimalista para Chrome/Brave que te permite cambiar fácilmente entre resultados de búsqueda de diferentes motores de búsqueda compatibles (Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon y YouTube). Con un simple clic, la extensión redirige la página de resultados del motor de búsqueda actual a la página correspondiente del motor de búsqueda seleccionado, conservando exactamente los mismos términos de búsqueda.
 
 ## ✨ Características
 
+- Funciona con múltiples motores de búsqueda compatibles: Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon, YouTube y Wikipedia
+- Interfaz minimalista con iconos claramente identificables
+- Cambio instantáneo entre motores de búsqueda con un solo clic
+- Menú contextual para buscar texto seleccionado en cualquier página
+- Opción para configurar el motor de búsqueda predeterminado para el menú contextual
+- Configuración personalizable para dominios de Amazon y YouTube
 - 🔄 Conversión instantánea de Brave Search a múltiples motores de búsqueda
 - 🔍 Mantiene los términos de búsqueda originales
-- 🔎 Soporte para Google, DuckDuckGo, Bing, OpenAI, Amazon y YouTube
 - 🎨 Interfaz minimalista con colores distintivos para cada motor de búsqueda
 - 📱 Diseño moderno y responsive
 - 🔔 Feedback visual con indicadores de estado
 - ⚡ Ligera y rápida, sin impacto en el rendimiento
-- ⚙️ Panel de configuración personalizable para dominios regionales
-- 💻 Posibilidad de cambiar el orden de los botones mediante arrastrar y soltar
-- 💾 Guarda tus preferencias automáticamente entre sesiones
-- 💬 Menú contextual para buscar texto seleccionado en cualquier página web
 - 🔐 Búsqueda rápida con motor predeterminado configurable
 - 📸 Captura de áreas específicas de la pantalla para análisis con OpenAI
 - 🤖 Integración con el modelo GPT-4o-mini para análisis de imágenes
@@ -57,8 +59,8 @@ _Convierte tus búsquedas de Brave a Google, DuckDuckGo, Bing, OpenAI, Amazon y 
 ![Captura de pantalla de análisis con OpenAI](images/OpenAI.png)
 
 #### Popup de la extensión:
-- Panel principal con el título "Brave Search Converter"
-- Indicador de estado que muestra si estás en una página de Brave Search
+- Panel principal con el título "Search Engine Converter"
+- Indicador de estado que muestra el motor de búsqueda detectado
 - Botones para convertir la búsqueda a Google, DuckDuckGo, Bing, OpenAI, Amazon y YouTube
 - Panel de configuración para personalizar dominios regionales y orden de botones
 - Información de versión y enlace al repositorio
@@ -92,7 +94,7 @@ _La extensión estará disponible en Chrome Web Store._
 
 1. Descarga o clona este repositorio
    ```bash
-   git clone https://github.com/686f6c61/extension-chrome-brave-to-google-search.git
+   git clone https://github.com/686f6c61/extension-chrome-search-engine-converter.git
    ```
 
 2. Abre Chrome/Brave y navega a `chrome://extensions/`
