@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "Search Engine Converter",
+  "version": "1.1",
+  "description": "Convierte búsquedas entre motores de búsqueda: Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon, YouTube y Wikipedia",
+  "author": "https://github.com/686f6c61",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "search-engine-converter@686f6c61.github.io",
+      "strict_min_version": "109.0"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "storage",
+    "scripting",
+    "tabs",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "https://api.openai.com/*",
+    "<all_urls>"
+  ],
+  "web_accessible_resources": [{
+    "resources": ["html2canvas.min.js", "content-script.js"],
+    "matches": ["<all_urls>"]
+  }],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "images/icon128.png",
+      "256": "images/icon256.png"
+    }
+  },
+  "background": {
+    "scripts": ["browser-polyfill.js", "background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["browser-polyfill.js", "content-script.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "icons": {
+    "128": "images/icon128.png",
+    "256": "images/icon256.png"
+  }
+}
