@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Search Engine Converter",
-  "version": "1.1",
+  "version": "1.2",
   "description": "Convierte búsquedas entre motores de búsqueda: Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon, YouTube y Wikipedia",
   "author": "https://github.com/686f6c61",
   "browser_specific_settings": {
@@ -23,7 +23,7 @@
     "<all_urls>"
   ],
   "web_accessible_resources": [{
-    "resources": ["html2canvas.min.js", "content-script.js"],
+    "resources": ["crypto-utils.js", "sanitizer.js", "screen-selector.js"],
     "matches": ["<all_urls>"]
   }],
   "action": {
@@ -34,17 +34,13 @@
     }
   },
   "background": {
-    "scripts": ["browser-polyfill.js", "background.js"]
+    "scripts": ["browser-polyfill.js", "crypto-utils.js", "sanitizer.js", "rate-limiter.js", "background.js"]
   },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["browser-polyfill.js", "content-script.js"],
-      "run_at": "document_end"
-    }
-  ],
   "icons": {
     "128": "images/icon128.png",
     "256": "images/icon256.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; connect-src 'self' https://api.openai.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data:;"
   }
 }

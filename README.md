@@ -2,21 +2,51 @@
 
 # Search Engine Converter
 
-<img src="Firefox/images/icon256.png" alt="Search Engine Converter Logo" width="128px" height="128px">
+### 30 Motores de búsqueda soportados:
 
-### Motores de búsqueda soportados:
-
+#### Motores de búsqueda principales:
 [<img src="https://www.google.com/favicon.ico" width="32" alt="Google">](https://www.google.com) &nbsp;&nbsp;
-[<img src="https://www.bing.com/favicon.ico" width="32" alt="Bing">](https://www.bing.com) &nbsp;&nbsp;
 [<img src="https://duckduckgo.com/favicon.ico" width="32" alt="DuckDuckGo">](https://duckduckgo.com) &nbsp;&nbsp;
-[<img src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" width="32" alt="OpenAI">](https://chat.openai.com) &nbsp;&nbsp;
-[<img src="https://www.amazon.es/favicon.ico" width="32" alt="Amazon">](https://www.amazon.es) &nbsp;&nbsp;
+[<img src="https://www.bing.com/favicon.ico" width="32" alt="Bing">](https://www.bing.com) &nbsp;&nbsp;
+[<img src="https://brave.com/favicon.ico" width="32" alt="Brave">](https://search.brave.com) &nbsp;&nbsp;
+[<img src="https://www.startpage.com/favicon.ico" width="32" alt="Startpage">](https://www.startpage.com) &nbsp;&nbsp;
+[<img src="https://www.ecosia.org/favicon.ico" width="32" alt="Ecosia">](https://www.ecosia.org) &nbsp;&nbsp;
+[<img src="https://www.qwant.com/favicon.ico" width="32" alt="Qwant">](https://www.qwant.com) &nbsp;&nbsp;
+[<img src="https://yandex.com/favicon.ico" width="32" alt="Yandex">](https://yandex.com) &nbsp;&nbsp;
+[<img src="https://www.baidu.com/favicon.ico" width="32" alt="Baidu">](https://www.baidu.com)
+
+#### Redes sociales y contenido:
 [<img src="https://www.youtube.com/favicon.ico" width="32" alt="YouTube">](https://www.youtube.com) &nbsp;&nbsp;
-[<img src="https://es.wikipedia.org/static/favicon/wikipedia.ico" width="32" alt="Wikipedia">](https://es.wikipedia.org)
+[<img src="https://twitter.com/favicon.ico" width="32" alt="Twitter/X">](https://twitter.com) &nbsp;&nbsp;
+[<img src="https://www.reddit.com/favicon.ico" width="32" alt="Reddit">](https://www.reddit.com) &nbsp;&nbsp;
+[<img src="https://www.pinterest.com/favicon.ico" width="32" alt="Pinterest">](https://www.pinterest.com) &nbsp;&nbsp;
+[<img src="https://www.linkedin.com/favicon.ico" width="32" alt="LinkedIn">](https://www.linkedin.com) &nbsp;&nbsp;
+[<img src="https://www.tiktok.com/favicon.ico" width="32" alt="TikTok">](https://www.tiktok.com) &nbsp;&nbsp;
+[<img src="https://vimeo.com/favicon.ico" width="32" alt="Vimeo">](https://vimeo.com) &nbsp;&nbsp;
+[<img src="https://soundcloud.com/favicon.ico" width="32" alt="SoundCloud">](https://soundcloud.com) &nbsp;&nbsp;
+[<img src="https://open.spotify.com/favicon.ico" width="32" alt="Spotify">](https://open.spotify.com)
 
-_Convierte tus búsquedas entre Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon, YouTube y Wikipedia con un solo clic o desde el menú contextual. Captura y analiza imágenes con OpenAI._
+#### Comercio electrónico:
+[<img src="https://www.amazon.com/favicon.ico" width="32" alt="Amazon">](https://www.amazon.com) &nbsp;&nbsp;
+[<img src="https://www.ebay.com/favicon.ico" width="32" alt="eBay">](https://www.ebay.com) &nbsp;&nbsp;
+[<img src="https://www.aliexpress.com/favicon.ico" width="32" alt="AliExpress">](https://www.aliexpress.com) &nbsp;&nbsp;
+[<img src="https://www.etsy.com/favicon.ico" width="32" alt="Etsy">](https://www.etsy.com)
 
-[![Versión](https://img.shields.io/badge/versi%C3%B3n-1.1-blue)](https://github.com/686f6c61/extension-chrome-search-engine-converter)
+#### Desarrollo y conocimiento:
+[<img src="https://github.com/favicon.ico" width="32" alt="GitHub">](https://github.com) &nbsp;&nbsp;
+[<img src="https://gitlab.com/favicon.ico" width="32" alt="GitLab">](https://gitlab.com) &nbsp;&nbsp;
+[<img src="https://stackoverflow.com/favicon.ico" width="32" alt="Stack Overflow">](https://stackoverflow.com) &nbsp;&nbsp;
+[<img src="https://es.wikipedia.org/favicon.ico" width="32" alt="Wikipedia">](https://wikipedia.org) &nbsp;&nbsp;
+[<img src="https://scholar.google.com/favicon.ico" width="32" alt="Google Scholar">](https://scholar.google.com) &nbsp;&nbsp;
+[<img src="https://archive.org/favicon.ico" width="32" alt="Archive.org">](https://archive.org) &nbsp;&nbsp;
+[WolframAlpha](https://www.wolframalpha.com)
+
+#### IA y Chat:
+[<img src="https://chat.openai.com/favicon.ico" width="32" alt="OpenAI">](https://chat.openai.com)
+
+_Convierte tus búsquedas entre Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon, YouTube y Wikipedia con un solo clic o desde el menú contextual. Captura y analiza áreas específicas de la pantalla con OpenAI._
+
+[![Versión](https://img.shields.io/badge/versi%C3%B3n-1.2-blue)](https://github.com/686f6c61/extension-chrome-search-engine-converter)
 [![Chrome](https://img.shields.io/badge/Chrome-compatible-brightgreen)](https://github.com/686f6c61/extension-chrome-search-engine-converter)
 [![Brave](https://img.shields.io/badge/Brave-compatible-brightgreen)](https://github.com/686f6c61/extension-chrome-search-engine-converter)
 [![Edge](https://img.shields.io/badge/Edge-compatible-brightgreen)](https://github.com/686f6c61/extension-chrome-search-engine-converter)
@@ -30,7 +60,9 @@ _Convierte tus búsquedas entre Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon,
 
 1. **Conversión entre motores de búsqueda**: Cambia instantáneamente entre diferentes motores de búsqueda (Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon, YouTube y Wikipedia) manteniendo exactamente los mismos términos de búsqueda. Con un solo clic, la extensión redirige la página de resultados actual a la página correspondiente del motor de búsqueda seleccionado.
 
-2. **Análisis de contenido con OpenAI**: Captura áreas específicas de cualquier página web o selecciona texto para analizarlo utilizando los potentes modelos de inteligencia artificial de OpenAI. Esta funcionalidad te permite obtener análisis detallados, explicaciones, traducciones o cualquier otro tipo de procesamiento de texto e imágenes directamente desde tu navegador.
+2. **Análisis de contenido con OpenAI**: Captura áreas específicas de cualquier página web para analizarlo utilizando los potentes modelos de inteligencia artificial de OpenAI. Esta funcionalidad te permite obtener análisis detallados, explicaciones, traducciones o cualquier otro tipo de procesamiento de imágenes directamente desde tu navegador. Los resultados se muestran en texto plano sin formato markdown para mejor legibilidad.
+
+![Extensión en funcionamiento](media/Consulta.gif)
 
 ## 💲 Estructura del Repositorio
 
@@ -56,11 +88,12 @@ Este repositorio contiene versiones de la extensión para diferentes navegadores
 - **Configuración personalizable**: Adapta la extensión a tus necesidades con opciones para dominios regionales de Amazon y YouTube
 - **Motor predeterminado configurable**: Establece tu motor de búsqueda favorito como predeterminado para búsquedas rápidas
 
-### Análisis con OpenAI
+### Análisis con OpenAI (NUEVO v1.2)
 
-- **Captura y análisis de áreas**: Selecciona cualquier parte de una página web para analizarla con OpenAI
-- **Análisis de texto seleccionado**: Envía texto seleccionado directamente a OpenAI para análisis detallado
-- **Múltiples opciones de captura**: Captura áreas para analizar, copiar al portapapeles o guardar como imagen
+- **Captura y análisis de áreas específicas**: Selecciona con precisión cualquier parte de una página web para analizarla con OpenAI
+- **Interfaz mejorada**: Panel integrado directamente en la página sin abrir nuevas pestañas
+- **Prompts personalizados**: Dirige el análisis con instrucciones específicas (ej: "Traduce esto", "Explica el gráfico")
+- **Resultados en texto plano**: Sin formato markdown para mejor legibilidad y facilidad de copia
 - **Modelos avanzados**: Compatibilidad con los últimos modelos de OpenAI (GPT-4o-mini, GPT-4o, GPT-3.5 Turbo)
 - **Configuración flexible**: Personaliza la API key, modelo y parámetros para adaptarse a tus necesidades
 
@@ -72,19 +105,61 @@ Este repositorio contiene versiones de la extensión para diferentes navegadores
 - **Diseño responsive**: Adaptable a diferentes tamaños de pantalla y resoluciones
 - **Temas personalizables**: Soporte para tema claro, oscuro o sincronizado con el sistema
 
+## 🔒 Seguridad
+
+Esta extensión implementa múltiples capas de seguridad para proteger tus datos y garantizar una experiencia segura:
+
+### Cifrado de datos sensibles
+- **Cifrado AES-GCM**: Todas las API keys se cifran usando el algoritmo AES-GCM de 256 bits antes de almacenarse
+- **Derivación de claves segura**: Utiliza PBKDF2 con 100,000 iteraciones para generar claves de cifrado robustas
+- **Contraseña única**: Cada instalación genera una contraseña única basada en el ID de la extensión y el user agent
+- **Web Crypto API**: Implementación usando las APIs criptográficas nativas del navegador para máxima seguridad
+
+### Sanitización de contenido
+- **Prevención de XSS**: Todas las respuestas de OpenAI se sanitizan antes de mostrarse en el DOM
+- **Escape de HTML**: Los caracteres especiales se escapan correctamente para prevenir inyección de código
+- **Conversión segura de Markdown**: El contenido Markdown se convierte a HTML seguro con etiquetas permitidas
+- **Lista blanca de etiquetas**: Solo se permiten etiquetas HTML seguras (p, br, strong, em, code, pre, ul, ol, li, blockquote, h1-h6, a)
+
+### Recursos locales
+- **Sin dependencias CDN**: html2canvas se carga localmente, eliminando riesgos de seguridad de terceros
+- **Integridad verificada**: Todos los recursos locales están incluidos en el paquete de la extensión
+- **Control total**: No hay llamadas a servidores externos excepto a api.openai.com
+
+### Content Security Policy (CSP)
+- **Scripts restringidos**: Solo se permite la ejecución de scripts propios de la extensión (`script-src 'self'`)
+- **Sin objetos externos**: Política `object-src 'none'` para prevenir la carga de plugins
+- **Conexiones limitadas**: Solo se permiten conexiones a api.openai.com y recursos esenciales
+- **Protección contra inyección**: La CSP previene la ejecución de scripts inline no autorizados
+
+### Rate Limiting
+- **Control de uso**: Límite de 10 solicitudes por minuto a la API de OpenAI
+- **Protección contra abuso**: Bloqueo temporal de 5 minutos si se excede el límite
+- **Ahorro de costos**: Previene el uso excesivo accidental de la API
+- **Retroalimentación clara**: Mensajes informativos sobre el estado del límite de tasa
+
+### Permisos mínimos
+- La extensión solo solicita los permisos estrictamente necesarios
+- No se recopilan ni envían datos a servidores externos (excepto OpenAI cuando se usa esa función)
+- Las API keys nunca se transmiten a ningún servidor que no sea api.openai.com
+
 ## 🖼️ Capturas de pantalla
 
-### Popup de la extensión
+### Extensión en acción
 
-![Captura de pantalla de la extensión](Firefox/images/imagen.png)
+![Extensión en funcionamiento](media/Consulta.gif)
 
-### Menú contextual
+### Interfaz principal
 
-![Captura de pantalla del menú contextual](Firefox/images/texto.png)
+![Captura de pantalla 1](media/Captura_01.png)
 
-### Captura y análisis con OpenAI
+### Configuración y opciones
 
-![Captura de pantalla de análisis con OpenAI](Firefox/images/OpenAI.png)
+![Captura de pantalla 2](media/Captura_02.png)
+
+### Análisis con OpenAI
+
+![Captura de pantalla 3](media/Captura_03.png)
 
 #### Popup de la extensión:
 - Panel principal con el título "Search Engine Converter"
@@ -109,7 +184,6 @@ Este repositorio contiene versiones de la extensión para diferentes navegadores
 - Soporte para múltiples modelos de OpenAI:
   - GPT-4o-mini (recomendado): Equilibrio entre rendimiento y velocidad
   - GPT-4o: Mayor capacidad de análisis y detalle
-  - GPT-3.5 Turbo: Opción más rápida y económica
 - Posibilidad de añadir prompts personalizados para dirigir el análisis de la imagen
 
 ## 🚀 Instalación
@@ -273,23 +347,29 @@ Este repositorio contiene versiones de la extensión para diferentes navegadores
 
 4. Al seleccionar cualquier opción, se abrirá una nueva pestaña con los resultados de la búsqueda
 
-### Captura y análisis de pantalla con OpenAI
+### Captura y análisis de áreas específicas con OpenAI (NUEVO v1.2)
 
-1. Haz clic derecho en cualquier parte de una página web
+1. **Haz clic derecho** en cualquier parte de una página web
 
-2. Selecciona "Capturar y analizar con OpenAI" en el menú contextual
+2. **Selecciona** "Capturar área y analizar con OpenAI" en el menú contextual
 
-3. Se capturará automáticamente la pantalla visible y se abrirá una nueva pestaña
+3. **Arrastra el cursor** para seleccionar el área específica que deseas analizar
+   - Aparecerá un recuadro azul mientras seleccionas
+   - Puedes seleccionar cualquier parte de la página: texto, imágenes, gráficos, tablas, etc.
 
-4. En la nueva pestaña, haz clic y arrastra para seleccionar el área específica que deseas analizar
+4. **Al soltar el mouse**, aparecerá un panel con opciones de análisis
+   - El panel se muestra directamente en la página actual (sin abrir nuevas pestañas)
 
-5. Opcionalmente, escribe un prompt personalizado en el campo de texto para dirigir el análisis (por ejemplo, "Identifica los productos que aparecen en esta imagen")
+5. **Opcionalmente**, escribe un prompt personalizado para dirigir el análisis
+   - Ejemplos: "¿Qué productos aparecen?", "Traduce este texto al inglés", "Explica este gráfico", "Resume el contenido"
 
-6. Haz clic en el botón "Analizar con OpenAI" para procesar la imagen seleccionada
+6. **Haz clic en "Analizar"** para enviar la imagen a OpenAI
 
-7. Espera unos segundos mientras se procesa la imagen y se muestra el resultado del análisis
+7. **El resultado aparecerá** en texto plano sin formato markdown
+   - Mejor legibilidad y facilidad para copiar el texto
+   - Los resultados se muestran en el mismo panel
 
-8. Puedes cerrar la ventana de resultados o la pestaña completa cuando hayas terminado
+8. **Puedes cerrar** el panel con el botón "Cancelar" o presionando ESC
 
 ### Personalización
 
@@ -347,12 +427,11 @@ Para utilizar las potentes funcionalidades de análisis de imágenes y texto con
 |--------|-------------|------------|-----------|-------|------------------|
 | **GPT-4o-mini** | Versión optimizada y más ligera de GPT-4o | Buena comprensión de imágenes, análisis de texto detallado | Rápido | Bajo | Análisis general de imágenes y texto, uso diario |
 | **GPT-4o** | Modelo más avanzado con capacidades multimodales completas | Excelente comprensión de imágenes complejas, análisis profundo | Moderado | Medio | Análisis detallado de imágenes complejas, contenido técnico |
-| **GPT-3.5 Turbo** | Modelo más antiguo pero eficiente | Comprensión básica de imágenes, análisis de texto adecuado | Muy rápido | Muy bajo | Análisis básico, respuestas rápidas, bajo consumo de tokens |
 
 ### Consideraciones sobre costes y uso
 
 - El uso de la API de OpenAI tiene un costo basado en tokens (unidades de texto/imagen procesadas)
-- Los modelos más avanzados como GPT-4o tienen un costo mayor por token que GPT-3.5 Turbo
+- El modelo GPT-4o tiene un costo mayor por token que GPT-4o-mini
 - El análisis de imágenes consume más tokens que el análisis de texto
 - Puedes establecer límites de gasto en tu cuenta de OpenAI para controlar los costes
 - La extensión está optimizada para minimizar el uso de tokens
@@ -424,6 +503,34 @@ Para más información sobre las capacidades y características de cada modelo, 
 - El uso de la API de OpenAI puede generar costes según su política de precios
 - No recopila ni almacena datos de búsqueda o imágenes capturadas
 
+## 🔧 Solución de problemas
+
+### Problemas con la API key de OpenAI
+
+**Síntoma**: La API key no se guarda o aparece un error al usarla
+- **Solución**: Asegúrate de que la API key comience con "sk-" y sea válida
+- **Verificación**: La extensión ahora cifra las API keys, por lo que verás asteriscos después de guardarla
+
+**Síntoma**: Error "Rate limit exceeded"
+- **Solución**: Has excedido el límite de 10 solicitudes por minuto. Espera 5 minutos
+- **Prevención**: Usa la extensión de forma moderada para evitar exceder los límites
+
+### Problemas de seguridad
+
+**Síntoma**: La extensión no carga o muestra errores de CSP
+- **Solución**: Asegúrate de haber recargado la extensión después de la actualización
+- **Verificación**: Ve a la página de extensiones y haz clic en el botón de recarga
+
+**Síntoma**: El contenido de OpenAI se muestra extraño o con caracteres raros
+- **Solución**: Esto es normal, la extensión sanitiza el contenido por seguridad
+- **Nota**: Los caracteres HTML se escapan para prevenir ataques XSS
+
+### Problemas de instalación
+
+**Síntoma**: La extensión no se instala correctamente
+- **Solución**: Asegúrate de seleccionar la carpeta correcta (Chrome-Brave-Edge o Firefox)
+- **Verificación**: El archivo manifest.json debe estar en la raíz de la carpeta seleccionada
+
 ## 👥 Contribuciones
 
 Las contribuciones son bienvenidas. Si deseas mejorar esta extensión:
@@ -438,9 +545,134 @@ Las contribuciones son bienvenidas. Si deseas mejorar esta extensión:
 
 Distribuido bajo la Licencia MIT. Ver `LICENSE` para más información.
 
+## 📚 Documentación Técnica
+
+Para desarrolladores y colaboradores:
+
+- **[Documentación de Chrome/Brave/Edge](Chrome-Brave-Edge/DOCUMENTATION.md)** - Arquitectura y detalles de implementación
+- **[Documentación de Firefox](Firefox/DOCUMENTATION.md)** - Especificidades de Firefox y WebExtensions API
+- **[Referencia de API](API_REFERENCE.md)** - Documentación completa de todas las APIs
+- **[Arquitectura del Sistema](ARCHITECTURE.md)** - Diseño general y flujo de datos
+
+## 🧑‍💻 Desarrollo
+
+### Estructura del Proyecto
+
+```
+extension-chrome-brave-Edge-Search-Engine-Converter/
+├── Chrome-Brave-Edge/     # Extensión para navegadores Chromium
+│   ├── manifest.json      # Manifest V3
+│   ├── background.js      # Service Worker
+│   ├── popup.html/js      # Interfaz principal
+│   └── ...módulos         # Utilidades y seguridad
+├── Firefox/               # Extensión para Firefox
+│   ├── manifest.json      # WebExtensions API
+│   ├── background.js      # Script de fondo
+│   ├── browser-polyfill.js # Compatibilidad
+│   └── ...módulos         # Mismas utilidades
+└── media/                 # Capturas y videos
+```
+
+### Comenzar a Desarrollar
+
+1. **Clonar el repositorio**
+   ```bash
+   git clone https://github.com/686f6c61/extension-chrome-search-engine-converter.git
+   cd extension-chrome-search-engine-converter
+   ```
+
+2. **Cargar en Chrome/Brave/Edge**
+   - Abrir `chrome://extensions/`
+   - Activar "Modo de desarrollador"
+   - Click en "Cargar sin empaquetar"
+   - Seleccionar carpeta `Chrome-Brave-Edge`
+
+3. **Cargar en Firefox**
+   - Abrir `about:debugging`
+   - Click en "Este Firefox"
+   - Click en "Cargar complemento temporal"
+   - Seleccionar `Firefox/manifest.json`
+
+### Testing y Depuración
+
+#### Chrome DevTools
+```javascript
+// En la consola del service worker
+chrome.storage.local.get(console.log)  // Ver configuración
+chrome.runtime.getManifest()           // Verificar manifest
+```
+
+#### Firefox DevTools
+```javascript
+// En la consola de depuración
+browser.storage.local.get().then(console.log)
+browser.permissions.getAll().then(console.log)
+```
+
+### Contribuir Código
+
+1. **Fork del repositorio**
+2. **Crear rama de característica**
+   ```bash
+   git checkout -b feature/nueva-funcionalidad
+   ```
+3. **Seguir estándares de código**
+   - JSDoc para funciones
+   - Nombres descriptivos
+   - Manejo de errores
+4. **Probar en ambos navegadores**
+5. **Crear Pull Request**
+
+## 🔐 Seguridad del Código
+
+### Medidas Implementadas
+
+- **Cifrado AES-GCM** para API keys
+- **Sanitización HTML** contra XSS
+- **Rate Limiting** para proteger APIs
+- **CSP estricto** en manifest
+- **Validación de entrada** en todos los campos
+
+### Reportar Vulnerabilidades
+
+Si encuentras una vulnerabilidad de seguridad:
+1. **NO** crear un issue público
+2. Contactar a [@686f6c61](https://github.com/686f6c61)
+3. Incluir detalles y pasos para reproducir
+4. Esperar confirmación antes de divulgar
+
 ## 📧 Contacto
 
 Puedes encontrarme en GitHub: [@686f6c61](https://github.com/686f6c61)
+
+## 📝 Changelog
+
+### Versión 1.2 (Nueva funcionalidad de captura mejorada)
+- **Nueva función**: Sistema de captura de áreas completamente rediseñado
+- **Mejora**: Interfaz integrada directamente en la página (sin abrir nuevas pestañas)
+- **Mejora**: Selección de área más precisa con recuadro visual
+- **Mejora**: Resultados en texto plano sin formato markdown
+- **Nueva función**: Prompts personalizados para dirigir el análisis
+- **Seguridad**: Implementado cifrado AES-GCM para almacenamiento seguro de API keys
+- **Seguridad**: Añadida sanitización completa de respuestas de OpenAI para prevenir XSS
+- **Seguridad**: Implementada Content Security Policy restrictiva
+- **Seguridad**: Añadido rate limiting para controlar el uso de la API de OpenAI
+- **Mejora**: Compatibilidad completa con Firefox
+- **Mejora**: Optimización del rendimiento y reducción del tamaño de la extensión
+
+### Versión 1.1
+- **Nueva función**: Integración con OpenAI para análisis de imágenes y texto
+- **Nueva función**: Captura de áreas específicas de la pantalla
+- **Nueva función**: Análisis de texto seleccionado con OpenAI
+- **Mejora**: Soporte para múltiples modelos de OpenAI
+- **Mejora**: Interfaz mejorada para configuración de API
+
+### Versión 1.0
+- Lanzamiento inicial
+- Conversión entre 8 motores de búsqueda principales
+- Menú contextual para búsquedas rápidas
+- Configuración de dominios regionales
+- Interfaz minimalista y responsive
 
 ---
 

@@ -155,6 +155,94 @@
       color: #000000;
     }
     
+    #twitterButton i {
+      color: #1DA1F2;
+    }
+    
+    #githubButton i {
+      color: #333333;
+    }
+    
+    #gitlabButton i {
+      color: #FC6D26;
+    }
+    
+    #stackoverflowButton i {
+      color: #F58025;
+    }
+    
+    #redditButton i {
+      color: #FF4500;
+    }
+    
+    #pinterestButton i {
+      color: #E60023;
+    }
+    
+    #startpageButton i {
+      color: #5B7FDE;
+    }
+    
+    #ecosiaButton i {
+      color: #4CAF50;
+    }
+    
+    #qwantButton i {
+      color: #5C97FF;
+    }
+    
+    #yandexButton i {
+      color: #FF0000;
+    }
+    
+    #baiduButton i {
+      color: #2319DC;
+    }
+    
+    #ebayButton i {
+      color: #0064D2;
+    }
+    
+    #aliexpressButton i {
+      color: #FF6900;
+    }
+    
+    #etsyButton i {
+      color: #F45800;
+    }
+    
+    #scholarButton i {
+      color: #4285F4;
+    }
+    
+    #archiveButton i {
+      color: #000000;
+    }
+    
+    #wolframalphaButton i {
+      color: #DD1100;
+    }
+    
+    #spotifyButton i {
+      color: #1DB954;
+    }
+    
+    #soundcloudButton i {
+      color: #FF3300;
+    }
+    
+    #vimeoButton i {
+      color: #162221;
+    }
+    
+    #linkedinButton i {
+      color: #0077B5;
+    }
+    
+    #tiktokButton i {
+      color: #000000;
+    }
+    
     /* Button state styles */
     .search-button:hover {
       background-color: #000000;
@@ -199,6 +287,7 @@
     .config-button:hover {
       background-color: #e0e0e0;
     }
+    
     
     /* Configuration panel component */
     .config-panel {
@@ -360,33 +449,101 @@
     <p id="status"><i class="fas fa-info-circle"></i> Selecciona un motor de búsqueda</p>
   </div>
   
+  
   <!-- Search engine button grid -->
   <div class="search-buttons">
-    <button id="googleButton" class="search-button">
+    <button id="googleButton" class="search-button engine-button">
       <i class="fab fa-google"></i> Google
     </button>
-    <button id="duckduckgoButton" class="search-button">
+    <button id="duckduckgoButton" class="search-button engine-button">
       <i class="fab fa-d-and-d"></i> DuckDuckGo
     </button>
-    <button id="bingButton" class="search-button">
+    <button id="bingButton" class="search-button engine-button">
       <i class="fab fa-microsoft"></i> Bing
     </button>
-    <button id="openaiButton" class="search-button">
+    <button id="openaiButton" class="search-button engine-button">
       <i class="fas fa-robot"></i> OpenAI
     </button>
-    <button id="amazonButton" class="search-button">
+    <button id="amazonButton" class="search-button engine-button">
       <i class="fab fa-amazon"></i> Amazon
     </button>
-    <button id="youtubeButton" class="search-button">
+    <button id="youtubeButton" class="search-button engine-button">
       <i class="fab fa-youtube"></i> YouTube
     </button>
-    <button id="braveButton" class="search-button">
+    <button id="braveButton" class="search-button engine-button">
       <i class="fas fa-shield-alt"></i> Brave
     </button>
-    <button id="wikipediaButton" class="search-button">
+    <button id="wikipediaButton" class="search-button engine-button">
       <i class="fab fa-wikipedia-w"></i> Wikipedia
     </button>
+    <button id="twitterButton" class="search-button engine-button">
+      <i class="fab fa-twitter"></i> Twitter/X
+    </button>
+    <button id="githubButton" class="search-button engine-button" style="display: none;">
+      <i class="fab fa-github"></i> GitHub
+    </button>
+    <button id="gitlabButton" class="search-button engine-button" style="display: none;">
+      <i class="fab fa-gitlab"></i> GitLab
+    </button>
+    <button id="stackoverflowButton" class="search-button engine-button" style="display: none;">
+      <i class="fab fa-stack-overflow"></i> Stack Overflow
+    </button>
+    <button id="redditButton" class="search-button engine-button" style="display: none;">
+      <i class="fab fa-reddit"></i> Reddit
+    </button>
+    <button id="pinterestButton" class="search-button engine-button" style="display: none;">
+      <i class="fab fa-pinterest"></i> Pinterest
+    </button>
+    <button id="startpageButton" class="search-button engine-button" style="display: none;">
+      <i class="fas fa-search"></i> Startpage
+    </button>
+    <button id="ecosiaButton" class="search-button engine-button" style="display: none;">
+      <i class="fas fa-tree"></i> Ecosia
+    </button>
+    <button id="qwantButton" class="search-button engine-button" style="display: none;">
+      <i class="fas fa-search"></i> Qwant
+    </button>
+    <button id="yandexButton" class="search-button engine-button" style="display: none;">
+      <i class="fas fa-search"></i> Yandex
+    </button>
+    <button id="baiduButton" class="search-button engine-button" style="display: none;">
+      <i class="fas fa-search"></i> Baidu
+    </button>
+    <button id="ebayButton" class="search-button engine-button" style="display: none;">
+      <i class="fas fa-shopping-cart"></i> eBay
+    </button>
+    <button id="aliexpressButton" class="search-button engine-button" style="display: none;">
+      <i class="fas fa-shopping-bag"></i> AliExpress
+    </button>
+    <button id="etsyButton" class="search-button engine-button" style="display: none;">
+      <i class="fas fa-store"></i> Etsy
+    </button>
+    <button id="scholarButton" class="search-button engine-button" style="display: none;">
+      <i class="fas fa-graduation-cap"></i> Scholar
+    </button>
+    <button id="archiveButton" class="search-button engine-button" style="display: none;">
+      <i class="fas fa-archive"></i> Archive.org
+    </button>
+    <button id="wolframalphaButton" class="search-button engine-button" style="display: none;">
+      <i class="fas fa-calculator"></i> WolframAlpha
+    </button>
+    <button id="spotifyButton" class="search-button engine-button" style="display: none;">
+      <i class="fab fa-spotify"></i> Spotify
+    </button>
+    <button id="soundcloudButton" class="search-button engine-button" style="display: none;">
+      <i class="fab fa-soundcloud"></i> SoundCloud
+    </button>
+    <button id="vimeoButton" class="search-button engine-button" style="display: none;">
+      <i class="fab fa-vimeo"></i> Vimeo
+    </button>
+    <button id="linkedinButton" class="search-button engine-button" style="display: none;">
+      <i class="fab fa-linkedin"></i> LinkedIn
+    </button>
+    <button id="tiktokButton" class="search-button engine-button" style="display: none;">
+      <i class="fab fa-tiktok"></i> TikTok
+    </button>
   </div>
+  
   
   <!-- Configuration toggle button -->
   <div class="config-toggle">
@@ -418,21 +575,135 @@
       </select>
     </div>
     
-    <!-- Context menu configuration section -->
-    <h3>Menú contextual</h3>
+    <!-- Engine visibility configuration section -->
+    <h3>Motores de búsqueda</h3>
     <div class="config-item">
-      <label for="defaultSearchEngine">Motor de búsqueda predeterminado:</label>
-      <select id="defaultSearchEngine">
+      <label for="defaultSearchEngine">Motor predeterminado para búsqueda con botón derecho:</label>
+      <select id="defaultSearchEngine" style="margin-bottom: 12px;">
         <option value="googleButton">Google</option>
+        <option value="braveButton">Brave</option>
         <option value="duckduckgoButton">DuckDuckGo</option>
         <option value="bingButton">Bing</option>
         <option value="openaiButton">OpenAI</option>
         <option value="amazonButton">Amazon</option>
         <option value="youtubeButton">YouTube</option>
-        <option value="braveButton">Brave</option>
         <option value="wikipediaButton">Wikipedia</option>
+        <option value="twitterButton">Twitter/X</option>
+        <option value="githubButton">GitHub</option>
+        <option value="gitlabButton">GitLab</option>
+        <option value="stackoverflowButton">Stack Overflow</option>
+        <option value="redditButton">Reddit</option>
+        <option value="pinterestButton">Pinterest</option>
+        <option value="startpageButton">Startpage</option>
+        <option value="ecosiaButton">Ecosia</option>
+        <option value="qwantButton">Qwant</option>
+        <option value="yandexButton">Yandex</option>
+        <option value="baiduButton">Baidu</option>
+        <option value="ebayButton">eBay</option>
+        <option value="aliexpressButton">AliExpress</option>
+        <option value="etsyButton">Etsy</option>
+        <option value="scholarButton">Google Scholar</option>
+        <option value="archiveButton">Archive.org</option>
+        <option value="wolframalphaButton">WolframAlpha</option>
+        <option value="spotifyButton">Spotify</option>
+        <option value="soundcloudButton">SoundCloud</option>
+        <option value="vimeoButton">Vimeo</option>
+        <option value="linkedinButton">LinkedIn</option>
+        <option value="tiktokButton">TikTok</option>
       </select>
-      <p class="config-description">Este motor se usará para la búsqueda rápida con botón derecho.</p>
+      <p class="config-description">Motores visibles en el popup:</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px;">
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleGoogle" checked style="margin-right: 6px;"> Google
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleBrave" checked style="margin-right: 6px;"> Brave
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleDuckduckgo" checked style="margin-right: 6px;"> DuckDuckGo
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleBing" checked style="margin-right: 6px;"> Bing
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleOpenai" checked style="margin-right: 6px;"> OpenAI
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleAmazon" checked style="margin-right: 6px;"> Amazon
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleYoutube" checked style="margin-right: 6px;"> YouTube
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleWikipedia" checked style="margin-right: 6px;"> Wikipedia
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleTwitter" checked style="margin-right: 6px;"> Twitter/X
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleGithub" style="margin-right: 6px;"> GitHub
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleGitlab" style="margin-right: 6px;"> GitLab
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleStackoverflow" style="margin-right: 6px;"> Stack Overflow
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleReddit" style="margin-right: 6px;"> Reddit
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visiblePinterest" style="margin-right: 6px;"> Pinterest
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleStartpage" style="margin-right: 6px;"> Startpage
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleEcosia" style="margin-right: 6px;"> Ecosia
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleQwant" style="margin-right: 6px;"> Qwant
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleYandex" style="margin-right: 6px;"> Yandex
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleBaidu" style="margin-right: 6px;"> Baidu
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleEbay" style="margin-right: 6px;"> eBay
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleAliexpress" style="margin-right: 6px;"> AliExpress
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleEtsy" style="margin-right: 6px;"> Etsy
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleScholar" style="margin-right: 6px;"> Google Scholar
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleArchive" style="margin-right: 6px;"> Archive.org
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleWolframalpha" style="margin-right: 6px;"> WolframAlpha
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleSpotify" style="margin-right: 6px;"> Spotify
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleSoundcloud" style="margin-right: 6px;"> SoundCloud
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleVimeo" style="margin-right: 6px;"> Vimeo
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleLinkedin" style="margin-right: 6px;"> LinkedIn
+        </label>
+        <label style="display: flex; align-items: center; font-size: 13px;">
+          <input type="checkbox" id="visibleTiktok" style="margin-right: 6px;"> TikTok
+        </label>
+      </div>
     </div>
     
     <!-- OpenAI API configuration section -->
@@ -447,7 +718,6 @@
       <select id="openAIModel">
         <option value="gpt-4o-mini">GPT-4o-mini (Recomendado)</option>
         <option value="gpt-4o">GPT-4o (Más potente)</option>
-        <option value="gpt-3.5-turbo">GPT-3.5 Turbo (Más rápido)</option>
       </select>
     </div>
     <div class="config-item">
@@ -504,11 +774,13 @@
   
   <!-- Footer with version and repository link -->
   <div class="footer">
-    <p>Versión 1.1 | <a href="https://github.com/686f6c61/extension-chrome-brave-Edge-Search-Engine-Converter" target="_blank">GitHub</a></p>
+    <p>Versión 1.2 | <a href="https://github.com/686f6c61/extension-chrome-brave-Edge-Search-Engine-Converter" target="_blank">GitHub</a></p>
   </div>
   
   <!-- External dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+  <script src="Sortable.min.js"></script>
+  <!-- Crypto utilities -->
+  <script src="crypto-utils.js"></script>
   <!-- Application script -->
   <script src="popup.js"></script>
 </body>

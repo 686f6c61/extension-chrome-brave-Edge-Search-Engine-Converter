@@ -2,32 +2,69 @@
 
 # Search Engine Converter para Firefox
 
-<img src="images/icon256.png" alt="Search Engine Converter Logo" width="128px" height="128px">
+### 30 Motores de búsqueda soportados:
 
-### Motores de búsqueda soportados:
-
+#### Motores de búsqueda principales:
 [<img src="https://www.google.com/favicon.ico" width="32" alt="Google">](https://www.google.com) &nbsp;&nbsp;
-[<img src="https://www.bing.com/favicon.ico" width="32" alt="Bing">](https://www.bing.com) &nbsp;&nbsp;
 [<img src="https://duckduckgo.com/favicon.ico" width="32" alt="DuckDuckGo">](https://duckduckgo.com) &nbsp;&nbsp;
-[<img src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" width="32" alt="OpenAI">](https://chat.openai.com) &nbsp;&nbsp;
-[<img src="https://www.amazon.es/favicon.ico" width="32" alt="Amazon">](https://www.amazon.es) &nbsp;&nbsp;
+[<img src="https://www.bing.com/favicon.ico" width="32" alt="Bing">](https://www.bing.com) &nbsp;&nbsp;
+[<img src="https://brave.com/favicon.ico" width="32" alt="Brave">](https://search.brave.com) &nbsp;&nbsp;
+[<img src="https://www.startpage.com/favicon.ico" width="32" alt="Startpage">](https://www.startpage.com) &nbsp;&nbsp;
+[<img src="https://www.ecosia.org/favicon.ico" width="32" alt="Ecosia">](https://www.ecosia.org) &nbsp;&nbsp;
+[<img src="https://www.qwant.com/favicon.ico" width="32" alt="Qwant">](https://www.qwant.com) &nbsp;&nbsp;
+[<img src="https://yandex.com/favicon.ico" width="32" alt="Yandex">](https://yandex.com) &nbsp;&nbsp;
+[<img src="https://www.baidu.com/favicon.ico" width="32" alt="Baidu">](https://www.baidu.com)
+
+#### Redes sociales y contenido:
 [<img src="https://www.youtube.com/favicon.ico" width="32" alt="YouTube">](https://www.youtube.com) &nbsp;&nbsp;
-[<img src="https://es.wikipedia.org/static/favicon/wikipedia.ico" width="32" alt="Wikipedia">](https://es.wikipedia.org)
+[<img src="https://twitter.com/favicon.ico" width="32" alt="Twitter/X">](https://twitter.com) &nbsp;&nbsp;
+[<img src="https://www.reddit.com/favicon.ico" width="32" alt="Reddit">](https://www.reddit.com) &nbsp;&nbsp;
+[<img src="https://www.pinterest.com/favicon.ico" width="32" alt="Pinterest">](https://www.pinterest.com) &nbsp;&nbsp;
+[<img src="https://www.linkedin.com/favicon.ico" width="32" alt="LinkedIn">](https://www.linkedin.com) &nbsp;&nbsp;
+[<img src="https://www.tiktok.com/favicon.ico" width="32" alt="TikTok">](https://www.tiktok.com) &nbsp;&nbsp;
+[<img src="https://vimeo.com/favicon.ico" width="32" alt="Vimeo">](https://vimeo.com) &nbsp;&nbsp;
+[<img src="https://soundcloud.com/favicon.ico" width="32" alt="SoundCloud">](https://soundcloud.com) &nbsp;&nbsp;
+[<img src="https://open.spotify.com/favicon.ico" width="32" alt="Spotify">](https://open.spotify.com)
 
-_Convierte tus búsquedas entre Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon, YouTube y Wikipedia con un solo clic o desde el menú contextual. Captura y analiza imágenes con OpenAI._
+#### Comercio electrónico:
+[<img src="https://www.amazon.com/favicon.ico" width="32" alt="Amazon">](https://www.amazon.com) &nbsp;&nbsp;
+[<img src="https://www.ebay.com/favicon.ico" width="32" alt="eBay">](https://www.ebay.com) &nbsp;&nbsp;
+[<img src="https://www.aliexpress.com/favicon.ico" width="32" alt="AliExpress">](https://www.aliexpress.com) &nbsp;&nbsp;
+[<img src="https://www.etsy.com/favicon.ico" width="32" alt="Etsy">](https://www.etsy.com)
 
-[![Versión](https://img.shields.io/badge/versi%C3%B3n-1.1-blue)](https://github.com/686f6c61/extension-chrome-search-engine-converter)
+#### Desarrollo y conocimiento:
+[<img src="https://github.com/favicon.ico" width="32" alt="GitHub">](https://github.com) &nbsp;&nbsp;
+[<img src="https://gitlab.com/favicon.ico" width="32" alt="GitLab">](https://gitlab.com) &nbsp;&nbsp;
+[<img src="https://stackoverflow.com/favicon.ico" width="32" alt="Stack Overflow">](https://stackoverflow.com) &nbsp;&nbsp;
+[<img src="https://es.wikipedia.org/favicon.ico" width="32" alt="Wikipedia">](https://wikipedia.org) &nbsp;&nbsp;
+[<img src="https://scholar.google.com/favicon.ico" width="32" alt="Google Scholar">](https://scholar.google.com) &nbsp;&nbsp;
+[<img src="https://archive.org/favicon.ico" width="32" alt="Archive.org">](https://archive.org) &nbsp;&nbsp;
+[WolframAlpha](https://www.wolframalpha.com)
+
+#### IA y Chat:
+[<img src="https://chat.openai.com/favicon.ico" width="32" alt="OpenAI">](https://chat.openai.com)
+
+_Convierte tus búsquedas entre Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon, YouTube y Wikipedia con un solo clic o desde el menú contextual. Captura y analiza áreas específicas de la pantalla con OpenAI._
+
+[![Versión](https://img.shields.io/badge/versi%C3%B3n-1.2-blue)](https://github.com/686f6c61/extension-chrome-search-engine-converter)
 [![Firefox](https://img.shields.io/badge/Firefox-compatible-brightgreen)](https://github.com/686f6c61/extension-chrome-search-engine-converter)
 
 </div>
 
 ## 📝 Descripción
 
-**Search Engine Converter** es una extensión minimalista para Chrome/Brave que te permite cambiar fácilmente entre resultados de búsqueda de diferentes motores de búsqueda compatibles (Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon y YouTube). Con un simple clic, la extensión redirige la página de resultados del motor de búsqueda actual a la página correspondiente del motor de búsqueda seleccionado, conservando exactamente los mismos términos de búsqueda.
+**Search Engine Converter** es una extensión minimalista para Firefox que te permite cambiar fácilmente entre resultados de búsqueda de diferentes motores de búsqueda compatibles (Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon y YouTube). Con un simple clic, la extensión redirige la página de resultados del motor de búsqueda actual a la página correspondiente del motor de búsqueda seleccionado, conservando exactamente los mismos términos de búsqueda.
+
+![Extensión en funcionamiento](../media/Consulta.gif)
 
 ## ✨ Características
 
-- Funciona con múltiples motores de búsqueda compatibles: Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon, YouTube y Wikipedia
+- Funciona con 30 motores de búsqueda diferentes organizados en categorías:
+  - **Motores principales**: Google, Brave, DuckDuckGo, Bing, Startpage, Ecosia, Qwant, Yandex, Baidu
+  - **Redes sociales**: YouTube, Twitter/X, Reddit, Pinterest, LinkedIn, TikTok, Vimeo, SoundCloud, Spotify
+  - **Comercio**: Amazon, eBay, AliExpress, Etsy
+  - **Desarrollo**: GitHub, GitLab, Stack Overflow, Wikipedia, Google Scholar, Archive.org, WolframAlpha
+  - **IA**: OpenAI (ChatGPT)
 - Interfaz minimalista con iconos claramente identificables
 - Cambio instantáneo entre motores de búsqueda con un solo clic
 - Menú contextual para buscar texto seleccionado en cualquier página
@@ -45,17 +82,22 @@ _Convierte tus búsquedas entre Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon,
 
 ## 📷 Capturas de pantalla
 
-### Popup de la extensión
+### Extensión en acción
 
-![Captura de pantalla de la extensión](images/imagen.png)
+![Extensión en funcionamiento](../media/Consulta.gif)
 
-### Menú contextual
+### Interfaz principal
 
-![Captura de pantalla del menú contextual](images/texto.png)
+![Captura de pantalla 1](../media/Captura_01.png)
 
-### Captura y análisis con OpenAI
+### Configuración y opciones
 
-![Captura de pantalla de análisis con OpenAI](images/OpenAI.png)
+![Captura de pantalla 2](../media/Captura_02.png)
+
+### Análisis con OpenAI
+
+![Captura de pantalla 3](../media/Captura_03.png)
+
 
 #### Popup de la extensión:
 - Panel principal con el título "Search Engine Converter"
@@ -80,7 +122,6 @@ _Convierte tus búsquedas entre Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon,
 - Soporte para múltiples modelos de OpenAI:
   - GPT-4o-mini (recomendado): Equilibrio entre rendimiento y velocidad
   - GPT-4o: Mayor capacidad de análisis y detalle
-  - GPT-3.5 Turbo: Opción más rápida y económica
 - Posibilidad de añadir prompts personalizados para dirigir el análisis de la imagen
 
 ## 🚀 Instalación
@@ -106,19 +147,18 @@ _Convierte tus búsquedas entre Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon,
 
 ### Desde el popup de la extensión
 
-1. Navega a una página de resultados de búsqueda de Brave (URL que comience con `https://search.brave.com/search?`)
+1. Navega a una página de resultados de búsqueda de cualquier motor compatible
 
 2. Haz clic en el icono de la extensión en la barra de herramientas
 
 3. Verás un mensaje preguntando a qué motor de búsqueda deseas cambiar
 
-4. Si estás en una página de búsqueda de Brave, selecciona uno de los motores disponibles:
-   - Google: Para buscar en Google Search
-   - DuckDuckGo: Para buscar en DuckDuckGo
-   - Bing: Para buscar en Microsoft Bing
-   - OpenAI: Para preguntar a ChatGPT
-   - Amazon: Para buscar productos en Amazon
-   - YouTube: Para buscar videos en YouTube
+4. Si estás en una página de búsqueda compatible, selecciona uno de los 30 motores disponibles:
+   - **Motores principales**: Google, Brave, DuckDuckGo, Bing, Startpage, Ecosia, Qwant, Yandex, Baidu
+   - **Redes sociales**: YouTube, Twitter/X, Reddit, Pinterest, LinkedIn, TikTok, Vimeo, SoundCloud, Spotify
+   - **Comercio**: Amazon, eBay, AliExpress, Etsy
+   - **Desarrollo**: GitHub, GitLab, Stack Overflow, Wikipedia, Google Scholar, Archive.org, WolframAlpha
+   - **IA**: OpenAI (ChatGPT)
 
 5. La página se actualizará automáticamente con los resultados equivalentes en el motor seleccionado
 
@@ -130,28 +170,28 @@ _Convierte tus búsquedas entre Google, Brave, DuckDuckGo, Bing, OpenAI, Amazon,
 
 3. En el menú contextual, encontrarás las siguientes opciones:
    - "Búsqueda rápida en [Motor predeterminado]": Busca directamente con tu motor preferido
-   - "Buscar '[texto seleccionado]' en...": Submenu con todos los motores disponibles
+   - "Buscar '[texto seleccionado]' en...": Submenu con los 30 motores disponibles
    - "Establecer motor predeterminado": Para cambiar el motor de búsqueda rápida
 
 4. Al seleccionar cualquier opción, se abrirá una nueva pestaña con los resultados de la búsqueda
 
-### Captura y análisis de pantalla con OpenAI
+### Captura y análisis de áreas específicas con OpenAI (NUEVO v1.2)
 
 1. Haz clic derecho en cualquier parte de una página web
 
-2. Selecciona "Capturar y analizar con OpenAI" en el menú contextual
+2. Selecciona "Capturar área y analizar con OpenAI" en el menú contextual
 
-3. Se capturará automáticamente la pantalla visible y se abrirá una nueva pestaña
+3. Arrastra el cursor para seleccionar el área específica que deseas analizar (aparecerá un recuadro azul)
 
-4. En la nueva pestaña, haz clic y arrastra para seleccionar el área específica que deseas analizar
+4. Al soltar el mouse, aparecerá un panel con opciones de análisis
 
-5. Opcionalmente, escribe un prompt personalizado en el campo de texto para dirigir el análisis (por ejemplo, "Identifica los productos que aparecen en esta imagen")
+5. Opcionalmente, escribe un prompt personalizado para dirigir el análisis (ej: "¿Qué productos aparecen?", "Traduce este texto", "Explica este gráfico")
 
-6. Haz clic en el botón "Analizar con OpenAI" para procesar la imagen seleccionada
+6. Haz clic en "Analizar" para enviar la imagen a OpenAI
 
-7. Espera unos segundos mientras se procesa la imagen y se muestra el resultado del análisis
+7. El resultado aparecerá en texto plano sin formato markdown para mejor legibilidad
 
-8. Puedes cerrar la ventana de resultados o la pestaña completa cuando hayas terminado
+8. Puedes cerrar el panel con el botón "Cancelar" o presionando ESC
 
 ### Personalización
 
@@ -175,13 +215,12 @@ La extensión soporta los siguientes modelos de OpenAI para el análisis de imá
 |--------|-------------|------------------------|
 | GPT-4o-mini | Versión más ligera de GPT-4o | Uso general, buen equilibrio entre rendimiento y velocidad |
 | GPT-4o | Modelo más potente con capacidades multimodales | Análisis detallado de imágenes complejas |
-| GPT-3.5 Turbo | Modelo más rápido y económico | Análisis básico de imágenes sencillas |
 
 Para más información sobre las capacidades y características de cada modelo, visita la [documentación oficial de OpenAI](https://platform.openai.com/docs/models).
 
 ## ⚠️ Limitaciones
 
-- La funcionalidad de conversión de búsquedas solo funciona en páginas de resultados de búsqueda de Brave
+- La funcionalidad de conversión de búsquedas solo funciona en páginas de resultados de búsqueda compatibles
 - Requiere una conexión a internet activa para redirigir a los motores de búsqueda
 - Para OpenAI, es posible que necesites estar logueado o tener una cuenta para acceder a ChatGPT
 - La funcionalidad de captura y análisis requiere una clave API válida de OpenAI

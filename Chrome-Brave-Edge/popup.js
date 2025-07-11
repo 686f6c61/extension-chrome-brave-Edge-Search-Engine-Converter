@@ -48,26 +48,68 @@ let configState = {
   includeImages: true,                  // Integración de resultados de imágenes
   includeVideos: true,                  // Integración de resultados de vídeos
   convertRelatedSearches: true,         // Procesamiento de sugerencias relacionadas
-  apiKey: null,                         // Credenciales de autenticación para APIs
+  openAIApiKey: '',                     // Credenciales de autenticación para API de OpenAI
+  openAIModel: 'gpt-4o-mini',           // Modelo de OpenAI a utilizar
+  openAIMaxTokens: 1000,                // Máximo de tokens para respuestas
   autoConversion: false,                // Activar conversión automática en navegación
   enableKeyboardShortcut: true,         // Habilitación de atajos de teclado globales
   customShortcut: 'Alt+G',              // Combinación de teclas para activación rápida
   saveHistory: false,                   // Persistencia de historial de conversiones
   theme: 'system',                      // Esquema visual (system, light, dark)
-  advancedMode: false                   // Habilitación de funcionalidades extendidas
+  advancedMode: false,                  // Habilitación de funcionalidades extendidas
+  amazonDomain: 'com',                  // Dominio de Amazon
+  youtubeDomain: 'com',                 // Dominio de YouTube
+  // Motores visibles (por defecto solo los principales)
+  visibleEngines: {
+    google: true,
+    brave: true,
+    duckduckgo: true,
+    bing: true,
+    openai: true,
+    amazon: true,
+    youtube: true,
+    wikipedia: true,
+    twitter: true,
+    // Nuevos motores (deshabilitados por defecto)
+    github: false,
+    gitlab: false,
+    stackoverflow: false,
+    reddit: false,
+    pinterest: false,
+    startpage: false,
+    ecosia: false,
+    qwant: false,
+    yandex: false,
+    baidu: false,
+    ebay: false,
+    aliexpress: false,
+    etsy: false,
+    scholar: false,
+    archive: false,
+    wolframalpha: false,
+    spotify: false,
+    soundcloud: false,
+    vimeo: false,
+    linkedin: false,
+    tiktok: false
+  }
 };
 
 /**
  * @function initializePopup
  * @description Punto de entrada principal que inicializa los componentes al cargar el documento
  */
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+  console.log('DOMContentLoaded disparado');
+  
   // Secuencia de inicialización de componentes
   setupTabNavigation();
-  loadConfiguration();
+  await loadConfiguration();
   setupEventListeners();
+  updateEngineButtonVisibility();
   checkCurrentPage();
   applyTheme();
+  
 });
 
 /**
@@ -105,8 +147,9 @@ function setupTabNavigation() {
  * @function loadConfiguration
  * @description Recupera la configuración persistente desde el almacenamiento local
  */
-function loadConfiguration() {
-  chrome.storage.local.get('searchEngineConverterConfig', function(data) {
+async function loadConfiguration() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get('searchEngineConverterConfig', async function(data) {
     if (data.searchEngineConverterConfig) {
       try {
         // Deserializar configuración almacenada
@@ -119,6 +162,19 @@ function loadConfiguration() {
           }
         });
         
+        // Descifrar la API key de OpenAI si está cifrada
+        if (configState.openAIApiKey && CryptoUtils.isEncrypted(configState.openAIApiKey)) {
+          try {
+            const decryptedKey = await CryptoUtils.decrypt(configState.openAIApiKey);
+            if (decryptedKey) {
+              configState.openAIApiKey = decryptedKey;
+            }
+          } catch (error) {
+            console.error('Error al descifrar API key:', error);
+            configState.openAIApiKey = '';
+          }
+        }
+        
         // Sincronizar interfaz con estado recuperado
         applyConfigToUI();
       } catch (error) {
@@ -129,6 +185,8 @@ function loadConfiguration() {
       // Inicialización: persistir valores predeterminados
       saveConfiguration();
     }
+    resolve();
+  });
   });
 }
 
@@ -164,11 +222,23 @@ function applyConfigToUI() {
     shortcutInput.disabled = !configState.enableKeyboardShortcut;
   }
   
-  // Proteger visualización de credenciales API
-  const apiKeyInput = document.getElementById('apiKey');
-  if (apiKeyInput && configState.apiKey) {
-    apiKeyInput.value = '••••••••••••••••••••••••••';
-    apiKeyInput.placeholder = 'Clave API guardada';
+  // Proteger visualización de credenciales API de OpenAI
+  const openAIApiKeyInput = document.getElementById('openAIApiKey');
+  if (openAIApiKeyInput && configState.openAIApiKey) {
+    openAIApiKeyInput.value = '••••••••••••••••••••••••••';
+    openAIApiKeyInput.placeholder = 'Clave API guardada';
+  }
+  
+  // Configurar modelo de OpenAI
+  const openAIModelSelect = document.getElementById('openAIModel');
+  if (openAIModelSelect && configState.openAIModel) {
+    openAIModelSelect.value = configState.openAIModel;
+  }
+  
+  // Configurar max tokens
+  const openAIMaxTokensInput = document.getElementById('openAIMaxTokens');
+  if (openAIMaxTokensInput && configState.openAIMaxTokens) {
+    openAIMaxTokensInput.value = configState.openAIMaxTokens;
   }
   
   // Configurar visibilidad de opciones avanzadas
@@ -206,11 +276,54 @@ function setupEventListeners() {
     convertButton.addEventListener('click', handleConvertClick);
   }
   
-  // Acción de captura de pantalla
-  const captureButton = document.getElementById('captureButton');
-  if (captureButton) {
-    captureButton.addEventListener('click', handleCaptureClick);
-  }
+  // Configurar los botones de conversión para cada motor
+  const allEngineButtons = [
+    { id: 'googleButton', engine: 'google' },
+    { id: 'braveButton', engine: 'brave' },
+    { id: 'duckduckgoButton', engine: 'duckduckgo' },
+    { id: 'bingButton', engine: 'bing' },
+    { id: 'openaiButton', engine: 'openai' },
+    { id: 'amazonButton', engine: 'amazon' },
+    { id: 'youtubeButton', engine: 'youtube' },
+    { id: 'wikipediaButton', engine: 'wikipedia' },
+    { id: 'twitterButton', engine: 'twitter' },
+    { id: 'githubButton', engine: 'github' },
+    { id: 'gitlabButton', engine: 'gitlab' },
+    { id: 'stackoverflowButton', engine: 'stackoverflow' },
+    { id: 'redditButton', engine: 'reddit' },
+    { id: 'pinterestButton', engine: 'pinterest' },
+    { id: 'startpageButton', engine: 'startpage' },
+    { id: 'ecosiaButton', engine: 'ecosia' },
+    { id: 'qwantButton', engine: 'qwant' },
+    { id: 'yandexButton', engine: 'yandex' },
+    { id: 'baiduButton', engine: 'baidu' },
+    { id: 'ebayButton', engine: 'ebay' },
+    { id: 'aliexpressButton', engine: 'aliexpress' },
+    { id: 'etsyButton', engine: 'etsy' },
+    { id: 'scholarButton', engine: 'scholar' },
+    { id: 'archiveButton', engine: 'archive' },
+    { id: 'wolframalphaButton', engine: 'wolframalpha' },
+    { id: 'spotifyButton', engine: 'spotify' },
+    { id: 'soundcloudButton', engine: 'soundcloud' },
+    { id: 'vimeoButton', engine: 'vimeo' },
+    { id: 'linkedinButton', engine: 'linkedin' },
+    { id: 'tiktokButton', engine: 'tiktok' }
+  ];
+  
+  // Solo configurar listeners para motores visibles
+  const engineButtons = allEngineButtons.filter(btn => 
+    configState.visibleEngines[btn.engine]
+  );
+  
+  engineButtons.forEach(({ id, engine }) => {
+    const button = document.getElementById(id);
+    if (button) {
+      button.addEventListener('click', () => {
+        handleEngineConversion(engine);
+      });
+    }
+  });
+  
   
   // Configuración de motor de búsqueda
   const engineSelect = document.getElementById('targetEngine');
@@ -302,22 +415,40 @@ function setupEventListeners() {
     });
   }
   
-  // Gestión de credenciales API
-  const apiKeyInput = document.getElementById('apiKey');
-  const saveApiKeyButton = document.getElementById('saveApiKey');
+  // Gestión de credenciales API de OpenAI
+  const openAIApiKeyInput = document.getElementById('openAIApiKey');
+  const openAIModelSelect = document.getElementById('openAIModel');
+  const openAIMaxTokensInput = document.getElementById('openAIMaxTokens');
+  const saveConfigButton = document.getElementById('saveConfigButton');
   
-  if (apiKeyInput && saveApiKeyButton) {
-    saveApiKeyButton.addEventListener('click', function() {
-      if (apiKeyInput.value && apiKeyInput.value !== '••••••••••••••••••••••••••') {
-        configState.apiKey = apiKeyInput.value;
-        saveConfiguration();
-        
-        // Implementar oscurecimiento para protección visual
-        apiKeyInput.value = '••••••••••••••••••••••••••';
-        apiKeyInput.placeholder = 'Clave API guardada';
-        
-        showNotification('Clave API guardada correctamente', 'success');
+  if (saveConfigButton) {
+    saveConfigButton.addEventListener('click', async function() {
+      // Guardar API key
+      if (openAIApiKeyInput && openAIApiKeyInput.value && 
+          openAIApiKeyInput.value !== '••••••••••••••••••••••••••') {
+        configState.openAIApiKey = openAIApiKeyInput.value;
       }
+      
+      // Guardar modelo
+      if (openAIModelSelect) {
+        configState.openAIModel = openAIModelSelect.value;
+      }
+      
+      // Guardar max tokens
+      if (openAIMaxTokensInput) {
+        configState.openAIMaxTokens = parseInt(openAIMaxTokensInput.value) || 1000;
+      }
+      
+      // Guardar configuración
+      await saveConfiguration();
+      
+      // Implementar oscurecimiento para protección visual
+      if (openAIApiKeyInput && configState.openAIApiKey) {
+        openAIApiKeyInput.value = '••••••••••••••••••••••••••';
+        openAIApiKeyInput.placeholder = 'Clave API guardada';
+      }
+      
+      showNotification('Configuración guardada correctamente', 'success');
     });
   }
   
@@ -347,6 +478,124 @@ function setupEventListeners() {
   if (resetButton) {
     resetButton.addEventListener('click', resetConfiguration);
   }
+  
+  // Configuración del botón de toggle de configuración
+  const configToggleButton = document.getElementById('configToggleButton');
+  const configPanel = document.getElementById('configPanel');
+  
+  if (configToggleButton && configPanel) {
+    configToggleButton.addEventListener('click', function() {
+      configPanel.classList.toggle('visible');
+      const isVisible = configPanel.classList.contains('visible');
+      configToggleButton.innerHTML = isVisible ? 
+        '<i class="fas fa-times"></i> Cerrar' : 
+        '<i class="fas fa-cog"></i> Configuración';
+    });
+  }
+  
+  // Configuración de visibilidad de motores
+  const visibilityCheckboxes = [
+    'visibleGoogle', 'visibleBrave', 'visibleDuckduckgo', 'visibleBing',
+    'visibleOpenai', 'visibleAmazon', 'visibleYoutube', 'visibleWikipedia',
+    'visibleTwitter', 'visibleGithub', 'visibleGitlab', 'visibleStackoverflow',
+    'visibleReddit', 'visiblePinterest', 'visibleStartpage', 'visibleEcosia',
+    'visibleQwant', 'visibleYandex', 'visibleBaidu', 'visibleEbay',
+    'visibleAliexpress', 'visibleEtsy', 'visibleScholar', 'visibleArchive',
+    'visibleWolframalpha', 'visibleSpotify', 'visibleSoundcloud', 'visibleVimeo',
+    'visibleLinkedin', 'visibleTiktok'
+  ];
+  
+  visibilityCheckboxes.forEach(checkboxId => {
+    const checkbox = document.getElementById(checkboxId);
+    if (checkbox) {
+      // Establecer el estado inicial
+      const engineName = checkboxId.replace('visible', '').toLowerCase();
+      checkbox.checked = configState.visibleEngines[engineName] !== false;
+      
+      // Manejar cambios
+      checkbox.addEventListener('change', function() {
+        const engineName = checkboxId.replace('visible', '').toLowerCase();
+        configState.visibleEngines[engineName] = checkbox.checked;
+        updateEngineButtonVisibility();
+        saveConfiguration();
+      });
+    }
+  });
+  
+  // Configurar dominios
+  const amazonDomainSelect = document.getElementById('amazonDomain');
+  if (amazonDomainSelect) {
+    amazonDomainSelect.value = configState.amazonDomain || 'es';
+    amazonDomainSelect.addEventListener('change', function() {
+      configState.amazonDomain = amazonDomainSelect.value;
+      saveConfiguration();
+    });
+  }
+  
+  const youtubeDomainSelect = document.getElementById('youtubeDomain');
+  if (youtubeDomainSelect) {
+    youtubeDomainSelect.value = configState.youtubeDomain || 'com';
+    youtubeDomainSelect.addEventListener('change', function() {
+      configState.youtubeDomain = youtubeDomainSelect.value;
+      saveConfiguration();
+    });
+  }
+  
+  // Motor de búsqueda predeterminado
+  const defaultSearchEngineSelect = document.getElementById('defaultSearchEngine');
+  if (defaultSearchEngineSelect) {
+    defaultSearchEngineSelect.value = configState.defaultSearchEngine || 'googleButton';
+    defaultSearchEngineSelect.addEventListener('change', function() {
+      configState.defaultSearchEngine = defaultSearchEngineSelect.value;
+      saveConfiguration();
+    });
+  }
+}
+
+/**
+ * @function updateEngineButtonVisibility
+ * @description Actualiza la visibilidad de los botones de motores según la configuración
+ */
+function updateEngineButtonVisibility() {
+  const engineMapping = {
+    google: 'googleButton',
+    brave: 'braveButton',
+    duckduckgo: 'duckduckgoButton',
+    bing: 'bingButton',
+    openai: 'openaiButton',
+    amazon: 'amazonButton',
+    youtube: 'youtubeButton',
+    wikipedia: 'wikipediaButton',
+    twitter: 'twitterButton',
+    github: 'githubButton',
+    gitlab: 'gitlabButton',
+    stackoverflow: 'stackoverflowButton',
+    reddit: 'redditButton',
+    pinterest: 'pinterestButton',
+    startpage: 'startpageButton',
+    ecosia: 'ecosiaButton',
+    qwant: 'qwantButton',
+    yandex: 'yandexButton',
+    baidu: 'baiduButton',
+    ebay: 'ebayButton',
+    aliexpress: 'aliexpressButton',
+    etsy: 'etsyButton',
+    scholar: 'scholarButton',
+    archive: 'archiveButton',
+    wolframalpha: 'wolframalphaButton',
+    spotify: 'spotifyButton',
+    soundcloud: 'soundcloudButton',
+    vimeo: 'vimeoButton',
+    linkedin: 'linkedinButton',
+    tiktok: 'tiktokButton'
+  };
+  
+  Object.entries(engineMapping).forEach(([engine, buttonId]) => {
+    const button = document.getElementById(buttonId);
+    if (button) {
+      button.style.display = configState.visibleEngines[engine] ? '' : 'none';
+    }
+  });
 }
 
 /**
@@ -395,27 +644,182 @@ function handleConvertClick() {
 }
 
 /**
- * @function handleCaptureClick
- * @description Gestiona la acción de captura de pantalla
+ * @function handleEngineConversion
+ * @description Gestiona la conversión de búsqueda a un motor específico
+ * @param {string} targetEngine - Motor de búsqueda destino
  */
-function handleCaptureClick() {
-  // Recuperar contexto de pestaña activa
+function handleEngineConversion(targetEngine) {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     const activeTab = tabs[0];
+    const currentUrl = activeTab.url;
     
-    // Notificar inicio de operación al usuario
-    showNotification('Capturando pantalla...', 'info');
+    // Detectar si es búsqueda de imágenes
+    const isImageSearch = currentUrl.includes('tbm=isch') || // Google
+                         currentUrl.includes('/images') || // Brave, Bing
+                         currentUrl.includes('iax=images') || // DuckDuckGo
+                         currentUrl.includes('images/search'); // Bing
     
-    // Cerrar popup para evitar interferencia visual
+    // Extraer la consulta de búsqueda de la URL actual
+    let query = null;
+    
+    // Patrones para extraer queries de diferentes motores
+    const patterns = [
+      { regex: /[?&]q=([^&]+)/, engines: ['google', 'bing', 'brave', 'duckduckgo', 'twitter', 'startpage', 'ecosia', 'qwant', 'yandex', 'github', 'gitlab', 'stackoverflow', 'reddit', 'linkedin', 'tiktok'] },
+      { regex: /[?&]search_query=([^&]+)/, engines: ['youtube'] },
+      { regex: /[?&]k=([^&]+)/, engines: ['amazon'] },
+      { regex: /[?&]search=([^&]+)/, engines: ['wikipedia', 'pinterest', 'archive'] },
+      { regex: /[?&]p=([^&]+)/, engines: ['yahoo'] },
+      { regex: /[?&]text=([^&]+)/, engines: ['yandex'] },
+      { regex: /[?&]wd=([^&]+)/, engines: ['baidu'] },
+      { regex: /[?&]_nkw=([^&]+)/, engines: ['ebay'] },
+      { regex: /[?&]SearchText=([^&]+)/, engines: ['aliexpress'] },
+      { regex: /[?&]query=([^&]+)/, engines: ['etsy', 'soundcloud', 'vimeo', 'spotify'] },
+      { regex: /[?&]i=([^&]+)/, engines: ['wolframalpha'] }
+    ];
+    
+    // Intentar extraer la query
+    for (const pattern of patterns) {
+      const match = currentUrl.match(pattern.regex);
+      if (match) {
+        query = decodeURIComponent(match[1].replace(/\+/g, ' '));
+        break;
+      }
+    }
+    
+    if (!query) {
+      updateStatus('No se detectó ninguna búsqueda', 'error');
+      return;
+    }
+    
+    // Construir la URL del motor destino
+    let targetUrl = '';
+    
+    switch(targetEngine) {
+      case 'google':
+        targetUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+        if (isImageSearch) targetUrl += '&tbm=isch';
+        break;
+      case 'brave':
+        if (isImageSearch) {
+          targetUrl = `https://search.brave.com/images?q=${encodeURIComponent(query)}`;
+        } else {
+          targetUrl = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
+        }
+        break;
+      case 'duckduckgo':
+        targetUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+        if (isImageSearch) targetUrl += '&iax=images&ia=images';
+        break;
+      case 'bing':
+        if (isImageSearch) {
+          targetUrl = `https://www.bing.com/images/search?q=${encodeURIComponent(query)}`;
+        } else {
+          targetUrl = `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
+        }
+        break;
+      case 'yahoo':
+        targetUrl = `https://search.yahoo.com/search?p=${encodeURIComponent(query)}`;
+        if (isImageSearch) targetUrl = `https://images.search.yahoo.com/search/images?p=${encodeURIComponent(query)}`;
+        break;
+      case 'openai':
+        targetUrl = `https://chat.openai.com/?q=${encodeURIComponent(query)}`;
+        break;
+      case 'amazon':
+        const amazonDomain = configState.amazonDomain || 'com';
+        targetUrl = `https://www.amazon.${amazonDomain}/s?k=${encodeURIComponent(query)}`;
+        break;
+      case 'youtube':
+        targetUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+        break;
+      case 'wikipedia':
+        targetUrl = `https://es.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(query)}`;
+        break;
+      case 'twitter':
+        targetUrl = `https://twitter.com/search?q=${encodeURIComponent(query)}`;
+        break;
+      case 'github':
+        targetUrl = `https://github.com/search?q=${encodeURIComponent(query)}`;
+        break;
+      case 'gitlab':
+        targetUrl = `https://gitlab.com/search?search=${encodeURIComponent(query)}`;
+        break;
+      case 'stackoverflow':
+        targetUrl = `https://stackoverflow.com/search?q=${encodeURIComponent(query)}`;
+        break;
+      case 'reddit':
+        targetUrl = `https://www.reddit.com/search/?q=${encodeURIComponent(query)}`;
+        break;
+      case 'pinterest':
+        if (isImageSearch) {
+          targetUrl = `https://www.pinterest.com/search/pins/?q=${encodeURIComponent(query)}`;
+        } else {
+          targetUrl = `https://www.pinterest.com/search/pins/?q=${encodeURIComponent(query)}`;
+        }
+        break;
+      case 'startpage':
+        targetUrl = `https://www.startpage.com/do/search?q=${encodeURIComponent(query)}`;
+        if (isImageSearch) targetUrl = `https://www.startpage.com/sp/search?cat=images&q=${encodeURIComponent(query)}`;
+        break;
+      case 'ecosia':
+        targetUrl = `https://www.ecosia.org/search?q=${encodeURIComponent(query)}`;
+        if (isImageSearch) targetUrl = `https://www.ecosia.org/images?q=${encodeURIComponent(query)}`;
+        break;
+      case 'qwant':
+        targetUrl = `https://www.qwant.com/?q=${encodeURIComponent(query)}`;
+        if (isImageSearch) targetUrl = `https://www.qwant.com/?q=${encodeURIComponent(query)}&t=images`;
+        break;
+      case 'yandex':
+        targetUrl = `https://yandex.com/search/?text=${encodeURIComponent(query)}`;
+        if (isImageSearch) targetUrl = `https://yandex.com/images/search?text=${encodeURIComponent(query)}`;
+        break;
+      case 'baidu':
+        targetUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(query)}`;
+        if (isImageSearch) targetUrl = `https://image.baidu.com/search/index?tn=baiduimage&word=${encodeURIComponent(query)}`;
+        break;
+      case 'ebay':
+        targetUrl = `https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(query)}`;
+        break;
+      case 'aliexpress':
+        targetUrl = `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(query)}`;
+        break;
+      case 'etsy':
+        targetUrl = `https://www.etsy.com/search?q=${encodeURIComponent(query)}`;
+        break;
+      case 'scholar':
+        targetUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(query)}`;
+        break;
+      case 'archive':
+        targetUrl = `https://archive.org/search?query=${encodeURIComponent(query)}`;
+        break;
+      case 'wolframalpha':
+        targetUrl = `https://www.wolframalpha.com/input?i=${encodeURIComponent(query)}`;
+        break;
+      case 'spotify':
+        targetUrl = `https://open.spotify.com/search/${encodeURIComponent(query)}`;
+        break;
+      case 'soundcloud':
+        targetUrl = `https://soundcloud.com/search?q=${encodeURIComponent(query)}`;
+        break;
+      case 'vimeo':
+        targetUrl = `https://vimeo.com/search?q=${encodeURIComponent(query)}`;
+        break;
+      case 'linkedin':
+        targetUrl = `https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(query)}`;
+        break;
+      case 'tiktok':
+        targetUrl = `https://www.tiktok.com/search?q=${encodeURIComponent(query)}`;
+        break;
+      default:
+        updateStatus('Motor no soportado', 'error');
+        return;
+    }
+    
+    // Abrir en nueva pestaña
+    chrome.tabs.create({ url: targetUrl });
     window.close();
-    
-    // Solicitar operación de captura al proceso de fondo
-    chrome.runtime.sendMessage({
-      action: 'captureScreen',
-      tabId: activeTab.id
-    });
   });
 }
+
 
 /**
  * @function checkCurrentPage
@@ -426,44 +830,176 @@ function checkCurrentPage() {
     const activeTab = tabs[0];
     const url = activeTab.url || '';
     
-    // Validar mediante patrones de URL de motores soportados
-    const isSearchEngine = (
-      url.includes('google.com/search') ||
-      url.includes('bing.com/search') ||
-      url.includes('yahoo.com/search') ||
-      url.includes('duckduckgo.com') ||
-      url.includes('brave.com/search')
-    );
+    // Detectar el motor de búsqueda actual
+    let currentEngine = null;
+    let isSearchEngine = false;
+    let isImageSearch = false;
+    
+    if (url.includes('google.com/search')) {
+      currentEngine = 'Google';
+      isSearchEngine = true;
+      isImageSearch = url.includes('tbm=isch');
+    } else if (url.includes('search.brave.com')) {
+      currentEngine = 'Brave';
+      isSearchEngine = true;
+      isImageSearch = url.includes('/images');
+    } else if (url.includes('bing.com/search') || url.includes('bing.com/images/search')) {
+      currentEngine = 'Bing';
+      isSearchEngine = true;
+      isImageSearch = url.includes('/images/search');
+    } else if (url.includes('duckduckgo.com')) {
+      currentEngine = 'DuckDuckGo';
+      isSearchEngine = true;
+      isImageSearch = url.includes('iax=images');
+    } else if (url.includes('yahoo.com/search')) {
+      currentEngine = 'Yahoo';
+      isSearchEngine = true;
+    } else if (url.includes('amazon.') && url.includes('/s?')) {
+      currentEngine = 'Amazon';
+      isSearchEngine = true;
+    } else if (url.includes('youtube.com/results')) {
+      currentEngine = 'YouTube';
+      isSearchEngine = true;
+    } else if (url.includes('wikipedia.org') && url.includes('search')) {
+      currentEngine = 'Wikipedia';
+      isSearchEngine = true;
+    } else if ((url.includes('twitter.com/search') || url.includes('x.com/search'))) {
+      currentEngine = 'Twitter/X';
+      isSearchEngine = true;
+    } else if (url.includes('github.com/search')) {
+      currentEngine = 'GitHub';
+      isSearchEngine = true;
+    } else if (url.includes('gitlab.com/search')) {
+      currentEngine = 'GitLab';
+      isSearchEngine = true;
+    } else if (url.includes('stackoverflow.com/search')) {
+      currentEngine = 'Stack Overflow';
+      isSearchEngine = true;
+    } else if (url.includes('reddit.com/search')) {
+      currentEngine = 'Reddit';
+      isSearchEngine = true;
+    } else if (url.includes('pinterest.') && url.includes('/search/')) {
+      currentEngine = 'Pinterest';
+      isSearchEngine = true;
+      isImageSearch = true;
+    } else if (url.includes('startpage.com/search') || url.includes('startpage.com/sp/search')) {
+      currentEngine = 'Startpage';
+      isSearchEngine = true;
+    } else if (url.includes('ecosia.org/search')) {
+      currentEngine = 'Ecosia';
+      isSearchEngine = true;
+    } else if (url.includes('qwant.com/?q=')) {
+      currentEngine = 'Qwant';
+      isSearchEngine = true;
+    } else if (url.includes('yandex.') && url.includes('/search/')) {
+      currentEngine = 'Yandex';
+      isSearchEngine = true;
+      isImageSearch = url.includes('/images/');
+    } else if (url.includes('baidu.com/s?')) {
+      currentEngine = 'Baidu';
+      isSearchEngine = true;
+    } else if (url.includes('ebay.') && url.includes('/sch/')) {
+      currentEngine = 'eBay';
+      isSearchEngine = true;
+    } else if (url.includes('aliexpress.com/wholesale')) {
+      currentEngine = 'AliExpress';
+      isSearchEngine = true;
+    } else if (url.includes('etsy.com/search')) {
+      currentEngine = 'Etsy';
+      isSearchEngine = true;
+    } else if (url.includes('scholar.google.com/scholar')) {
+      currentEngine = 'Google Scholar';
+      isSearchEngine = true;
+    } else if (url.includes('archive.org/search')) {
+      currentEngine = 'Archive.org';
+      isSearchEngine = true;
+    } else if (url.includes('wolframalpha.com/input')) {
+      currentEngine = 'WolframAlpha';
+      isSearchEngine = true;
+    } else if (url.includes('open.spotify.com/search')) {
+      currentEngine = 'Spotify';
+      isSearchEngine = true;
+    } else if (url.includes('soundcloud.com/search')) {
+      currentEngine = 'SoundCloud';
+      isSearchEngine = true;
+    } else if (url.includes('vimeo.com/search')) {
+      currentEngine = 'Vimeo';
+      isSearchEngine = true;
+    } else if ((url.includes('linkedin.com/search') || url.includes('linkedin.com/jobs/search'))) {
+      currentEngine = 'LinkedIn';
+      isSearchEngine = true;
+    } else if (url.includes('tiktok.com/search')) {
+      currentEngine = 'TikTok';
+      isSearchEngine = true;
+    }
     
     // Actualizar estado de interfaz según compatibilidad
-    const convertButton = document.getElementById('convertButton');
-    const statusMessage = document.getElementById('statusMessage');
-    
-    if (convertButton && statusMessage) {
-      if (isSearchEngine) {
-        convertButton.disabled = false;
-        statusMessage.textContent = 'Página de búsqueda detectada';
-        statusMessage.className = 'status-message compatible';
-      } else {
-        convertButton.disabled = true;
-        statusMessage.textContent = 'No es una página de búsqueda compatible';
-        statusMessage.className = 'status-message incompatible';
+    if (isSearchEngine && currentEngine) {
+      let statusMessage = `Motor detectado: ${currentEngine}`;
+      if (isImageSearch) {
+        statusMessage += ' (Imágenes)';
       }
+      updateStatus(statusMessage, 'success');
+      
+      // Habilitar/deshabilitar botones según el tipo de búsqueda
+      document.querySelectorAll('.engine-button').forEach(btn => {
+        const btnId = btn.id;
+        
+        // Si es búsqueda de imágenes, deshabilitar motores que no soportan imágenes
+        if (isImageSearch) {
+          const noImageSupport = ['wikipediaButton', 'amazonButton', 'openaiButton', 'twitterButton', 
+            'youtubeButton', 'githubButton', 'gitlabButton', 'stackoverflowButton', 'redditButton',
+            'ebayButton', 'aliexpressButton', 'etsyButton', 'scholarButton', 'archiveButton',
+            'wolframalphaButton', 'spotifyButton', 'soundcloudButton', 'vimeoButton', 'linkedinButton',
+            'tiktokButton'];
+          
+          if (noImageSupport.includes(btnId)) {
+            btn.disabled = true;
+            btn.title = 'Este motor no soporta búsqueda de imágenes';
+          } else {
+            btn.disabled = false;
+            btn.title = '';
+          }
+        } else {
+          // Para búsqueda normal, habilitar todos
+          btn.disabled = false;
+          btn.title = '';
         }
       });
+    } else {
+      updateStatus('No es una página de búsqueda compatible', 'warning');
+      // Deshabilitar todos los botones de conversión
+      document.querySelectorAll('.engine-button').forEach(btn => {
+        btn.disabled = true;
+      });
     }
+  });
+}
 
 /**
  * @function saveConfiguration
  * @description Persiste la configuración actual en almacenamiento local
  */
-function saveConfiguration() {
+async function saveConfiguration() {
   // Generar copia para exportación sin datos sensibles
-  const configForExport = Object.assign({}, configState);
+  const configToSave = Object.assign({}, configState);
+  
+  // Cifrar la API key de OpenAI si existe
+  if (configToSave.openAIApiKey && configToSave.openAIApiKey.length > 0 && 
+      !configToSave.openAIApiKey.startsWith('•')) {
+    try {
+      const encryptedKey = await CryptoUtils.encrypt(configToSave.openAIApiKey);
+      configToSave.openAIApiKey = encryptedKey;
+    } catch (error) {
+      console.error('Error al cifrar API key:', error);
+      // Si falla el cifrado, no guardar la key
+      delete configToSave.openAIApiKey;
+    }
+  }
   
   // Persistir configuración completa
   chrome.storage.local.set({
-    'searchEngineConverterConfig': JSON.stringify(configState)
+    'searchEngineConverterConfig': JSON.stringify(configToSave)
   }, function() {
     // Sincronizar atajos de teclado si están habilitados
     if (configState.enableKeyboardShortcut) {
