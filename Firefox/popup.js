@@ -59,6 +59,8 @@ let configState = {
   advancedMode: false,                  // Habilitación de funcionalidades extendidas
   amazonDomain: 'com',                  // Dominio de Amazon
   youtubeDomain: 'com',                 // Dominio de YouTube
+  // Orden de botones personalizado
+  buttonOrder: [],                      // Array con el orden personalizado de los botones
   // Motores visibles (por defecto solo los principales)
   visibleEngines: {
     google: true,
@@ -105,6 +107,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   await loadConfiguration();
   setupEventListeners();
   updateEngineButtonVisibility();
+  initializeButtonOrdering();
   checkCurrentPage();
   applyTheme();
 });
@@ -514,6 +517,7 @@ function setupEventListeners() {
         const engineName = checkboxId.replace('visible', '').toLowerCase();
         configState.visibleEngines[engineName] = checkbox.checked;
         updateEngineButtonVisibility();
+        updateOrderList(); // Actualizar la lista de orden cuando cambie la visibilidad
         saveConfiguration();
       });
     }
@@ -554,7 +558,25 @@ function setupEventListeners() {
  * @description Actualiza la visibilidad de los botones de motores según la configuración
  */
 function updateEngineButtonVisibility() {
-  const engineMapping = {
+  const engineMapping = getEngineMapping();
+  
+  Object.entries(engineMapping).forEach(([engine, buttonId]) => {
+    const button = document.getElementById(buttonId);
+    if (button) {
+      button.style.display = configState.visibleEngines[engine] ? '' : 'none';
+    }
+  });
+  
+  // Aplicar el orden personalizado si existe
+  applyButtonOrder();
+}
+
+/**
+ * @function getEngineMapping
+ * @description Retorna el mapeo de motores a IDs de botones
+ */
+function getEngineMapping() {
+  return {
     google: 'googleButton',
     brave: 'braveButton',
     duckduckgo: 'duckduckgoButton',
@@ -586,12 +608,166 @@ function updateEngineButtonVisibility() {
     linkedin: 'linkedinButton',
     tiktok: 'tiktokButton'
   };
+}
+
+/**
+ * @function getEngineInfo
+ * @description Retorna información visual de cada motor
+ */
+function getEngineInfo() {
+  return {
+    google: { icon: 'fab fa-google', color: '#4285F4', name: 'Google' },
+    brave: { icon: 'fab fa-brave', color: '#FF6600', name: 'Brave' },
+    duckduckgo: { icon: 'fab fa-d-and-d', color: '#DE5833', name: 'DuckDuckGo' },
+    bing: { icon: 'fab fa-microsoft', color: '#008373', name: 'Bing' },
+    openai: { icon: 'fas fa-robot', color: '#10A37F', name: 'OpenAI' },
+    amazon: { icon: 'fab fa-amazon', color: '#FF9900', name: 'Amazon' },
+    youtube: { icon: 'fab fa-youtube', color: '#FF0000', name: 'YouTube' },
+    wikipedia: { icon: 'fab fa-wikipedia-w', color: '#000000', name: 'Wikipedia' },
+    twitter: { icon: 'fab fa-twitter', color: '#1DA1F2', name: 'Twitter/X' },
+    github: { icon: 'fab fa-github', color: '#000000', name: 'GitHub' },
+    gitlab: { icon: 'fab fa-gitlab', color: '#FC6D26', name: 'GitLab' },
+    stackoverflow: { icon: 'fab fa-stack-overflow', color: '#F48024', name: 'Stack Overflow' },
+    reddit: { icon: 'fab fa-reddit', color: '#FF4500', name: 'Reddit' },
+    pinterest: { icon: 'fab fa-pinterest', color: '#BD081C', name: 'Pinterest' },
+    startpage: { icon: 'fas fa-shield-alt', color: '#3A5998', name: 'Startpage' },
+    ecosia: { icon: 'fas fa-tree', color: '#56C271', name: 'Ecosia' },
+    qwant: { icon: 'fas fa-search', color: '#5C97FF', name: 'Qwant' },
+    yandex: { icon: 'fas fa-search', color: '#FF0000', name: 'Yandex' },
+    baidu: { icon: 'fas fa-search', color: '#2932E1', name: 'Baidu' },
+    ebay: { icon: 'fas fa-shopping-cart', color: '#E53238', name: 'eBay' },
+    aliexpress: { icon: 'fas fa-shopping-bag', color: '#FF6600', name: 'AliExpress' },
+    etsy: { icon: 'fas fa-store', color: '#F16521', name: 'Etsy' },
+    scholar: { icon: 'fas fa-graduation-cap', color: '#4285F4', name: 'Scholar' },
+    archive: { icon: 'fas fa-archive', color: '#000000', name: 'Archive.org' },
+    wolframalpha: { icon: 'fas fa-calculator', color: '#DD1100', name: 'WolframAlpha' },
+    spotify: { icon: 'fab fa-spotify', color: '#1DB954', name: 'Spotify' },
+    soundcloud: { icon: 'fab fa-soundcloud', color: '#FF5500', name: 'SoundCloud' },
+    vimeo: { icon: 'fab fa-vimeo', color: '#1AB7EA', name: 'Vimeo' },
+    linkedin: { icon: 'fab fa-linkedin', color: '#0077B5', name: 'LinkedIn' },
+    tiktok: { icon: 'fab fa-tiktok', color: '#000000', name: 'TikTok' }
+  };
+}
+
+/**
+ * @function initializeButtonOrdering
+ * @description Inicializa el sistema de ordenamiento de botones
+ */
+function initializeButtonOrdering() {
+  const orderList = document.getElementById('buttonOrderList');
+  if (!orderList || typeof Sortable === 'undefined') {
+    console.warn('Sortable library or order list not found');
+    return;
+  }
   
+  // Poblar la lista con todos los motores visibles
+  updateOrderList();
+  
+  // Inicializar Sortable
+  const sortable = Sortable.create(orderList, {
+    animation: 150,
+    ghostClass: 'sortable-ghost',
+    onEnd: function(evt) {
+      // Guardar el nuevo orden
+      const newOrder = Array.from(orderList.children).map(li => li.getAttribute('data-id'));
+      configState.buttonOrder = newOrder;
+      saveConfiguration();
+      
+      // Aplicar el nuevo orden inmediatamente
+      applyButtonOrder();
+    }
+  });
+}
+
+/**
+ * @function updateOrderList
+ * @description Actualiza la lista de orden con los motores visibles
+ */
+function updateOrderList() {
+  const orderList = document.getElementById('buttonOrderList');
+  if (!orderList) return;
+  
+  // Limpiar lista actual
+  orderList.innerHTML = '';
+  
+  const engineMapping = getEngineMapping();
+  const engineInfo = getEngineInfo();
+  
+  // Si ya hay un orden guardado, usarlo; si no, usar el orden predeterminado
+  let orderedEngines = [];
+  
+  if (configState.buttonOrder && configState.buttonOrder.length > 0) {
+    // Usar el orden guardado, pero solo para motores visibles
+    orderedEngines = configState.buttonOrder.filter(buttonId => {
+      const engine = Object.entries(engineMapping).find(([e, id]) => id === buttonId)?.[0];
+      return engine && configState.visibleEngines[engine];
+    });
+    
+    // Añadir motores visibles que no estén en el orden guardado
+    Object.entries(engineMapping).forEach(([engine, buttonId]) => {
+      if (configState.visibleEngines[engine] && !orderedEngines.includes(buttonId)) {
+        orderedEngines.push(buttonId);
+      }
+    });
+  } else {
+    // Orden predeterminado: todos los motores visibles
+    orderedEngines = Object.entries(engineMapping)
+      .filter(([engine]) => configState.visibleEngines[engine])
+      .map(([engine, buttonId]) => buttonId);
+  }
+  
+  // Crear elementos de lista
+  orderedEngines.forEach(buttonId => {
+    const engine = Object.entries(engineMapping).find(([e, id]) => id === buttonId)?.[0];
+    if (!engine) return;
+    
+    const info = engineInfo[engine];
+    const li = document.createElement('li');
+    li.setAttribute('data-id', buttonId);
+    li.className = 'button-order-item';
+    li.innerHTML = `
+      <i class="fas fa-grip-lines"></i>
+      <i class="${info.icon}" style="color: ${info.color};"></i> ${info.name}
+    `;
+    orderList.appendChild(li);
+  });
+}
+
+/**
+ * @function applyButtonOrder
+ * @description Aplica el orden personalizado a los botones
+ */
+function applyButtonOrder() {
+  const searchButtons = document.querySelector('.search-buttons');
+  if (!searchButtons) return;
+  
+  const engineMapping = getEngineMapping();
+  
+  // Si no hay orden personalizado, no hacer nada
+  if (!configState.buttonOrder || configState.buttonOrder.length === 0) return;
+  
+  // Crear un array con todos los botones visibles en el orden correcto
+  const orderedButtons = [];
+  
+  // Primero añadir los botones según el orden guardado
+  configState.buttonOrder.forEach(buttonId => {
+    const button = document.getElementById(buttonId);
+    if (button && button.style.display !== 'none') {
+      orderedButtons.push(button);
+    }
+  });
+  
+  // Luego añadir cualquier botón visible que no esté en el orden guardado
   Object.entries(engineMapping).forEach(([engine, buttonId]) => {
     const button = document.getElementById(buttonId);
-    if (button) {
-      button.style.display = configState.visibleEngines[engine] ? '' : 'none';
+    if (button && button.style.display !== 'none' && !orderedButtons.includes(button)) {
+      orderedButtons.push(button);
     }
+  });
+  
+  // Reorganizar los botones en el DOM
+  orderedButtons.forEach(button => {
+    searchButtons.appendChild(button);
   });
 }
 
@@ -1119,17 +1295,56 @@ function resetConfiguration() {
       includeVideos: true,
       convertRelatedSearches: true,
       apiKey: currentApiKey, // Preservar credenciales
+      openAIApiKey: currentApiKey,
+      openAIModel: 'gpt-4o-mini',
+      openAIMaxTokens: 1000,
       autoConversion: false,
       enableKeyboardShortcut: true,
       customShortcut: 'Alt+G',
       saveHistory: false,
       theme: 'system',
-      advancedMode: false
+      advancedMode: false,
+      amazonDomain: 'com',
+      youtubeDomain: 'com',
+      buttonOrder: [], // Resetear orden de botones
+      visibleEngines: {
+        google: true,
+        brave: true,
+        duckduckgo: true,
+        bing: true,
+        openai: true,
+        amazon: true,
+        youtube: true,
+        wikipedia: true,
+        twitter: true,
+        github: false,
+        gitlab: false,
+        stackoverflow: false,
+        reddit: false,
+        pinterest: false,
+        startpage: false,
+        ecosia: false,
+        qwant: false,
+        yandex: false,
+        baidu: false,
+        ebay: false,
+        aliexpress: false,
+        etsy: false,
+        scholar: false,
+        archive: false,
+        wolframalpha: false,
+        spotify: false,
+        soundcloud: false,
+        vimeo: false,
+        linkedin: false,
+        tiktok: false
+      }
     };
     
     // Persistir y actualizar interfaz
     saveConfiguration();
     applyConfigToUI();
+    updateOrderList(); // Actualizar la lista de orden
     
     showNotification('Configuración restablecida correctamente', 'success');
   }
