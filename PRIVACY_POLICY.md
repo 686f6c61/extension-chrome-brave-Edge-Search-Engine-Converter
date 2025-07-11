@@ -6,7 +6,6 @@
 
 Esta Política de Privacidad describe cómo Search Engine Converter ("la Extensión", "nosotros", "nuestro") maneja la información cuando utilizas nuestra extensión de navegador. Nos comprometemos a proteger tu privacidad y a ser transparentes sobre nuestras prácticas de datos.
 
-**Contacto:** ext_chrome@00b.tech
 
 ## 2. Información que NO Recopilamos
 
